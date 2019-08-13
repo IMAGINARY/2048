@@ -47,7 +47,7 @@ h1.title {
   float: left;
 }
 
-@include keyframes(move-up) {
+@include keyframes('move-up') {
   0% {
     top: 25px;
     opacity: 1;
@@ -145,7 +145,7 @@ hr {
   margin: 0 auto;
 }
 
-@include keyframes(fade-in) {
+@include keyframes('fade-in') {
   0% {
     opacity: 0;
   }
@@ -314,6 +314,15 @@ hr {
 .tile {
   position: absolute; // Makes transforms relative to the top-left corner
 
+  video {
+    position: absolute;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    max-width: 100%;
+    max-height: 100%;
+  }
+
   .tile-inner {
     border-radius: $tile-border-radius;
 
@@ -414,7 +423,7 @@ hr {
   }
 }
 
-@include keyframes(appear) {
+@include keyframes('appear') {
   0% {
     opacity: 0;
     @include transform(scale(0));
@@ -431,7 +440,7 @@ hr {
   @include animation-fill-mode(backwards);
 }
 
-@include keyframes(pop) {
+@include keyframes('pop') {
   0% {
     @include transform(scale(0));
   }
