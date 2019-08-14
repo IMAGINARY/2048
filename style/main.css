@@ -762,4 +762,103 @@ hr {
   .game-message .lower {
     margin-top: 30px !important; } }
 
+.tile.tile-2 .tile-inner {
+  background-image: url("../img/2.webp");
+  background-size: contain;
+  font-size: 0;
+  /* sends the text off-screen */
+  color: white; }
+  .tile.tile-2 .tile-inner:hover {
+    font-size: 55px; }
+
+.tile.tile-4 .tile-inner {
+  background-image: url("../img/4.webp");
+  background-size: contain;
+  font-size: 0;
+  /* sends the text off-screen */
+  color: white; }
+  .tile.tile-4 .tile-inner:hover {
+    font-size: 55px; }
+
+.tile.tile-8 .tile-inner {
+  background-image: url("../img/8.webp");
+  background-size: contain;
+  font-size: 0;
+  /* sends the text off-screen */
+  color: white; }
+  .tile.tile-8 .tile-inner:hover {
+    font-size: 55px; }
+
+.tile.tile-16 .tile-inner {
+  background-image: url("../img/16.webp");
+  background-size: contain;
+  font-size: 0;
+  /* sends the text off-screen */
+  color: white; }
+  .tile.tile-16 .tile-inner:hover {
+    font-size: 55px; }
+
+.tile.tile-32 .tile-inner {
+  background-image: url("../img/32.webp");
+  background-size: contain;
+  font-size: 0;
+  /* sends the text off-screen */
+  color: white; }
+  .tile.tile-32 .tile-inner:hover {
+    font-size: 55px; }
+
+.tile.tile-64 .tile-inner {
+  background-image: url("../img/64.webp");
+  background-size: contain;
+  font-size: 0;
+  /* sends the text off-screen */
+  color: white; }
+  .tile.tile-64 .tile-inner:hover {
+    font-size: 55px; }
+
+.tile.tile-128 .tile-inner {
+  background-image: url("../img/128.webp");
+  background-size: contain;
+  font-size: 0;
+  /* sends the text off-screen */
+  color: white; }
+  .tile.tile-128 .tile-inner:hover {
+    font-size: 55px; }
+
+.tile.tile-256 .tile-inner {
+  background-image: url("../img/256.webp");
+  background-size: contain;
+  font-size: 0;
+  /* sends the text off-screen */
+  color: white; }
+  .tile.tile-256 .tile-inner:hover {
+    font-size: 55px; }
+
+.tile.tile-512 .tile-inner {
+  background-image: url("../img/512.webp");
+  background-size: contain;
+  font-size: 0;
+  /* sends the text off-screen */
+  color: white; }
+  .tile.tile-512 .tile-inner:hover {
+    font-size: 55px; }
+
+.tile.tile-1024 .tile-inner {
+  background-image: url("../img/1024.webp");
+  background-size: contain;
+  font-size: 0;
+  /* sends the text off-screen */
+  color: white; }
+  .tile.tile-1024 .tile-inner:hover {
+    font-size: 55px; }
+
+.tile.tile-2048 .tile-inner {
+  background-image: url("../img/2048.webp");
+  background-size: contain;
+  font-size: 0;
+  /* sends the text off-screen */
+  color: white; }
+  .tile.tile-2048 .tile-inner:hover {
+    font-size: 55px; }
+
 /*# sourceMappingURL=main.css.map */
