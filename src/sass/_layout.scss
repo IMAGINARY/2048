@@ -1,0 +1,29 @@
+.container {
+  position: relative;
+  width: 1560px;
+  height: 1170px;
+  padding: 130px 0 76px 0;
+  box-sizing: border-box;
+}
+
+.game-container {
+  margin: 0 auto;
+}
+
+.restart-button {
+  position: absolute;
+  bottom: 40px;
+  right: 40px;
+}
+
+.score-wrapper-score {
+  position: absolute;
+  top: 20px;
+  left: 40px;
+}
+
+.score-wrapper-best {
+  position: absolute;
+  top: 20px;
+  right: 40px;
+}

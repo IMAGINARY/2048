@@ -4,7 +4,7 @@ $tiles: 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048;
   .tile.tile-#{$tile} .tile-inner {
     background-image: url('../img/#{$tile}.webp');
     background-size: contain;
-    font-size: 0;                 /* sends the text off-screen */
+    font-size: 0;
     color: white;
     &:hover {
       font-size: 55px;
