@@ -829,6 +829,80 @@ hr {
   .tile.tile-2048 .tile-inner:hover {
     font-size: 55px; }
 
+@-webkit-keyframes help-swipe-right {
+  0% {
+    left: -10%;
+    opacity: 0; }
+  20% {
+    left: -10%;
+    opacity: 1; }
+  100% {
+    left: 20%;
+    opacity: 0; } }
+
+@-moz-keyframes help-swipe-right {
+  0% {
+    left: -10%;
+    opacity: 0; }
+  20% {
+    left: -10%;
+    opacity: 1; }
+  100% {
+    left: 20%;
+    opacity: 0; } }
+
+@keyframes help-swipe-right {
+  0% {
+    left: -10%;
+    opacity: 0; }
+  20% {
+    left: -10%;
+    opacity: 1; }
+  100% {
+    left: 20%;
+    opacity: 0; } }
+
+.helping-hand {
+  display: none;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 10%;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  background-image: url("../img/hand.svg");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 50% 50%;
+  pointer-events: none;
+  -webkit-animation: help-swipe-right 1800ms ease-out;
+  -moz-animation: help-swipe-right 1800ms ease-out;
+  animation: help-swipe-right 1800ms ease-out;
+  -webkit-animation-fill-mode: both;
+  -moz-animation-fill-mode: both;
+  animation-fill-mode: both; }
+  .helping-hand.shown {
+    display: block; }
+
+.helping-text {
+  display: block;
+  position: absolute;
+  bottom: 35px;
+  font-size: 36px;
+  text-align: center;
+  width: 60%;
+  line-height: 40px;
+  margin: 0 20%;
+  margin-bottom: -100%;
+  opacity: 0;
+  transition: opacity 1s, margin-bottom 0s 1s; }
+  .helping-text.shown {
+    opacity: 1;
+    margin-bottom: 0;
+    transition: opacity 0.3s, margin-bottom 1s 0s; }
+
 .container {
   position: relative;
   width: 1560px;

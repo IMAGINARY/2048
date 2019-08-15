@@ -3,6 +3,9 @@ function HTMLActuator() {
   this.scoreContainer   = document.querySelector(".score-container");
   this.bestContainer    = document.querySelector(".best-container");
   this.messageContainer = document.querySelector(".game-message");
+  this.helpHand = document.querySelector(".helping-hand");
+  this.helpText = document.querySelector(".helping-text");
+  this.helpTimeout = null;
 
   this.score = 0;
 }
@@ -136,4 +139,29 @@ HTMLActuator.prototype.clearMessage = function () {
   // IE only takes one value to remove at a time.
   this.messageContainer.classList.remove("game-won");
   this.messageContainer.classList.remove("game-over");
+};
+
+
+HTMLActuator.prototype.showHelp = function() {
+  window.setTimeout((function(){
+    this.helpHand.classList.add('shown');
+    this.helpText.classList.add('shown');
+  }).bind(this), 0);
+};
+
+HTMLActuator.prototype.hideHelp = function() {
+  if (this.helpTimeout !== null) {
+    window.clearTimeout(this.helpTimeout);
+    this.helpTimeout = null;
+  }
+
+  this.helpHand.classList.remove('shown');
+  this.helpText.classList.remove('shown');
+};
+
+HTMLActuator.prototype.blinkHelp = function() {
+
+  this.hideHelp();
+  this.helpTimeout = window.setTimeout(this.hideHelp.bind(this), 6000);
+  this.showHelp();
 };
