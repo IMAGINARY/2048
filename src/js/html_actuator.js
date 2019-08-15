@@ -165,3 +165,5 @@ HTMLActuator.prototype.blinkHelp = function() {
   this.helpTimeout = window.setTimeout(this.hideHelp.bind(this), 6000);
   this.showHelp();
 };
+
+module.exports = HTMLActuator;
