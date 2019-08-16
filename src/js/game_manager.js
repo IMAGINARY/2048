@@ -1,13 +1,19 @@
 const Grid = require('./grid');
 const Tile = require('./tile');
 
-function GameManager(size, InputManager, Actuator, StorageManager) {
+function GameManager(container, size, InputManager, View, StorageManager) {
   this.size           = size; // Size of the grid
-  this.inputManager   = new InputManager;
   this.storageManager = new StorageManager;
-  this.actuator       = new Actuator;
+  this.view       = new View;
+  container.append(this.view.container);
+  this.inputManager   = new InputManager;
 
-  this.startTiles     = 2;
+  this.startTiles = 2;
+
+  this.inputManager.bindGameContainer(this.view.gameContainer);
+  this.inputManager.bindRestartButton(this.view.restartButton);
+  this.inputManager.bindRestartButton(this.view.retryButton);
+  this.inputManager.bindKeepPlayingButton(this.view.keepPlayingButton);
 
   this.inputManager.on("move", this.move.bind(this));
   this.inputManager.on("restart", this.restart.bind(this));
@@ -16,22 +22,22 @@ function GameManager(size, InputManager, Actuator, StorageManager) {
   this.helpTimeout = null;
 
   this.setup();
-  this.actuator.blinkHelp();
+  this.view.blinkHelp();
 }
 
 // Restart the game
 GameManager.prototype.restart = function () {
   this.storageManager.clearGameState();
-  this.actuator.continueGame(); // Clear the game won/lost message
+  this.view.continueGame(); // Clear the game won/lost message
   this.setup();
 
-  this.actuator.blinkHelp();
+  this.view.blinkHelp();
 };
 
 // Keep playing after winning (allows going over 2048)
 GameManager.prototype.keepPlaying = function () {
   this.keepPlaying = true;
-  this.actuator.continueGame(); // Clear the game won/lost message
+  this.view.continueGame(); // Clear the game won/lost message
 };
 
 // Return true if the game is lost, or has won and the user hasn't kept playing
@@ -62,7 +68,7 @@ GameManager.prototype.setup = function () {
     this.addStartTiles();
   }
 
-  // Update the actuator
+  // Update the view
   this.actuate();
 };
 
@@ -83,7 +89,7 @@ GameManager.prototype.addRandomTile = function () {
   }
 };
 
-// Sends the updated grid to the actuator
+// Sends the updated grid to the view
 GameManager.prototype.actuate = function () {
   if (this.storageManager.getBestScore() < this.score) {
     this.storageManager.setBestScore(this.score);
@@ -96,7 +102,7 @@ GameManager.prototype.actuate = function () {
     this.storageManager.setGameState(this.serialize());
   }
 
-  this.actuator.actuate(this.grid, {
+  this.view.actuate(this.grid, {
     score:      this.score,
     over:       this.over,
     won:        this.won,

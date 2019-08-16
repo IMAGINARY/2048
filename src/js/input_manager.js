@@ -1,4 +1,4 @@
-function KeyboardInputManager() {
+function InputManager() {
   this.events = {};
 
   if (window.navigator.msPointerEnabled) {
@@ -11,18 +11,16 @@ function KeyboardInputManager() {
     this.eventTouchmove     = "touchmove";
     this.eventTouchend      = "touchend";
   }
-
-  this.listen();
 }
 
-KeyboardInputManager.prototype.on = function (event, callback) {
+InputManager.prototype.on = function (event, callback) {
   if (!this.events[event]) {
     this.events[event] = [];
   }
   this.events[event].push(callback);
 };
 
-KeyboardInputManager.prototype.emit = function (event, data) {
+InputManager.prototype.emit = function (event, data) {
   var callbacks = this.events[event];
   if (callbacks) {
     callbacks.forEach(function (callback) {
@@ -31,7 +29,7 @@ KeyboardInputManager.prototype.emit = function (event, data) {
   }
 };
 
-KeyboardInputManager.prototype.listen = function () {
+InputManager.prototype.bindKeyboard = function () {
   var self = this;
 
   var map = {
@@ -52,8 +50,8 @@ KeyboardInputManager.prototype.listen = function () {
   // Respond to direction keys
   document.addEventListener("keydown", function (event) {
     var modifiers = event.altKey || event.ctrlKey || event.metaKey ||
-                    event.shiftKey;
-    var mapped    = map[event.which];
+      event.shiftKey;
+    var mapped = map[event.which];
 
     if (!modifiers) {
       if (mapped !== undefined) {
@@ -67,15 +65,12 @@ KeyboardInputManager.prototype.listen = function () {
       self.restart.call(self, event);
     }
   });
+};
 
-  // Respond to button presses
-  this.bindButtonPress(".retry-button", this.restart);
-  this.bindButtonPress(".restart-button", this.restart);
-  this.bindButtonPress(".keep-playing-button", this.keepPlaying);
-
+InputManager.prototype.bindGameContainer = function (gameContainer) {
+  var self = this;
   // Respond to swipe events
   var touchStartClientX, touchStartClientY;
-  var gameContainer = document.getElementsByClassName("game-container")[0];
 
   gameContainer.addEventListener(this.eventTouchstart, function (event) {
     if ((!window.navigator.msPointerEnabled && event.touches.length > 1) ||
@@ -127,20 +122,28 @@ KeyboardInputManager.prototype.listen = function () {
   });
 };
 
-KeyboardInputManager.prototype.restart = function (event) {
+InputManager.prototype.bindRestartButton = function(button) {
+  this.bindButtonPress(button, this.restart);
+
+};
+
+InputManager.prototype.bindKeepPlayingButton = function(button) {
+  this.bindButtonPress(button, this.keepPlaying);
+};
+
+InputManager.prototype.restart = function (event) {
   event.preventDefault();
   this.emit("restart");
 };
 
-KeyboardInputManager.prototype.keepPlaying = function (event) {
+InputManager.prototype.keepPlaying = function (event) {
   event.preventDefault();
   this.emit("keepPlaying");
 };
 
-KeyboardInputManager.prototype.bindButtonPress = function (selector, fn) {
-  var button = document.querySelector(selector);
+InputManager.prototype.bindButtonPress = function (button, fn) {
   button.addEventListener("click", fn.bind(this));
   button.addEventListener(this.eventTouchend, fn.bind(this));
 };
 
-module.exports = KeyboardInputManager;
+module.exports = InputManager;

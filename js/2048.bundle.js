@@ -34,18 +34,18 @@
 
 var GameManager = require('./game_manager');
 
-var KeyboardInputManager = require('./keyboard_input_manager');
+var InputManager = require('./input_manager');
 
-var HTMLActuator = require('./html_actuator');
+var HTMLView = require('./html_view');
 
 var LocalStorageManager = require('./local_storage_manager'); // Wait till the browser is ready to render the game (avoids glitches)
 
 
 window.requestAnimationFrame(function () {
-  new GameManager(4, KeyboardInputManager, HTMLActuator, LocalStorageManager);
+  new GameManager(window.document.body, 4, InputManager, HTMLView, LocalStorageManager);
 });
 
-},{"./game_manager":5,"./html_actuator":7,"./keyboard_input_manager":8,"./local_storage_manager":9}],3:[function(require,module,exports){
+},{"./game_manager":5,"./html_view":7,"./input_manager":8,"./local_storage_manager":9}],3:[function(require,module,exports){
 "use strict";
 
 Function.prototype.bind = Function.prototype.bind || function (target) {
@@ -142,34 +142,39 @@ var Grid = require('./grid');
 
 var Tile = require('./tile');
 
-function GameManager(size, InputManager, Actuator, StorageManager) {
+function GameManager(container, size, InputManager, View, StorageManager) {
   this.size = size; // Size of the grid
 
-  this.inputManager = new InputManager();
   this.storageManager = new StorageManager();
-  this.actuator = new Actuator();
+  this.view = new View();
+  container.append(this.view.container);
+  this.inputManager = new InputManager();
   this.startTiles = 2;
+  this.inputManager.bindGameContainer(this.view.gameContainer);
+  this.inputManager.bindRestartButton(this.view.restartButton);
+  this.inputManager.bindRestartButton(this.view.retryButton);
+  this.inputManager.bindKeepPlayingButton(this.view.keepPlayingButton);
   this.inputManager.on("move", this.move.bind(this));
   this.inputManager.on("restart", this.restart.bind(this));
   this.inputManager.on("keepPlaying", this.keepPlaying.bind(this));
   this.helpTimeout = null;
   this.setup();
-  this.actuator.blinkHelp();
+  this.view.blinkHelp();
 } // Restart the game
 
 
 GameManager.prototype.restart = function () {
   this.storageManager.clearGameState();
-  this.actuator.continueGame(); // Clear the game won/lost message
+  this.view.continueGame(); // Clear the game won/lost message
 
   this.setup();
-  this.actuator.blinkHelp();
+  this.view.blinkHelp();
 }; // Keep playing after winning (allows going over 2048)
 
 
 GameManager.prototype.keepPlaying = function () {
   this.keepPlaying = true;
-  this.actuator.continueGame(); // Clear the game won/lost message
+  this.view.continueGame(); // Clear the game won/lost message
 }; // Return true if the game is lost, or has won and the user hasn't kept playing
 
 
@@ -196,7 +201,7 @@ GameManager.prototype.setup = function () {
     this.keepPlaying = false; // Add the initial tiles
 
     this.addStartTiles();
-  } // Update the actuator
+  } // Update the view
 
 
   this.actuate();
@@ -216,7 +221,7 @@ GameManager.prototype.addRandomTile = function () {
     var tile = new Tile(this.grid.randomAvailableCell(), value);
     this.grid.insertTile(tile);
   }
-}; // Sends the updated grid to the actuator
+}; // Sends the updated grid to the view
 
 
 GameManager.prototype.actuate = function () {
@@ -231,7 +236,7 @@ GameManager.prototype.actuate = function () {
     this.storageManager.setGameState(this.serialize());
   }
 
-  this.actuator.actuate(this.grid, {
+  this.view.actuate(this.grid, {
     score: this.score,
     over: this.over,
     won: this.won,
@@ -560,18 +565,100 @@ module.exports = Grid;
 },{"./tile":11}],7:[function(require,module,exports){
 "use strict";
 
-function HTMLActuator() {
-  this.tileContainer = document.querySelector(".tile-container");
-  this.scoreContainer = document.querySelector(".score-container");
-  this.bestContainer = document.querySelector(".best-container");
-  this.messageContainer = document.querySelector(".game-message");
-  this.helpHand = document.querySelector(".helping-hand");
-  this.helpText = document.querySelector(".helping-text");
+function HTMLView() {
+  this.container = document.createElement('div');
+  this.container.classList.add('container');
+  this.gameContainer = document.createElement("div");
+  this.gameContainer.classList.add('game-container');
+  this.container.append(this.gameContainer); // Message Container
+
+  this.messageContainer = document.createElement('div');
+  this.messageContainer.classList.add('game-message');
+  this.messageContainerParagraph = document.createElement('p');
+  this.messageContainer.append(this.messageContainerParagraph);
+  this.gameContainer.append(this.messageContainer); // -- Lower
+
+  var lower = document.createElement('div');
+  lower.classList.add('lower');
+  this.messageContainer.append(lower); // ------ Keep playing button
+
+  this.keepPlayingButton = document.createElement('a');
+  this.keepPlayingButton.classList.add('keep-playing-button');
+  this.keepPlayingButton.textContent = 'Keep going';
+  lower.append(this.keepPlayingButton); // ------ Retry button
+
+  this.retryButton = document.createElement('a');
+  this.retryButton.classList.add('retry-button');
+  this.retryButton.textContent = 'Try again';
+  lower.append(this.retryButton);
+  this.messageContainer.append(lower); // Grid container
+
+  var size = 4;
+  var gridContainer = document.createElement('div');
+  gridContainer.classList.add('grid-container');
+
+  for (var i = 0; i !== size; i += 1) {
+    var row = document.createElement('div');
+    row.classList.add('grid-row');
+    gridContainer.append(row);
+
+    for (var j = 0; j !== size; j += 1) {
+      var cell = document.createElement('div');
+      cell.classList.add('grid-cell');
+      row.append(cell);
+    }
+  }
+
+  this.gameContainer.append(gridContainer); //Tile container
+
+  this.tileContainer = document.createElement('div');
+  this.tileContainer.classList.add('tile-container');
+  this.gameContainer.append(this.tileContainer); // Restart button
+
+  this.restartButton = document.createElement('a');
+  this.restartButton.classList.add('restart-button');
+  this.restartButton.textContent = 'New Game';
+  this.container.append(this.restartButton); // Score wrapper
+
+  var scoreWrapper = document.createElement('div');
+  scoreWrapper.classList.add('score-wrapper');
+  scoreWrapper.classList.add('score-wrapper-score');
+  var scoreLabel = document.createElement('div');
+  scoreLabel.classList.add('label');
+  scoreLabel.textContent = 'Score';
+  scoreWrapper.append(scoreLabel);
+  this.scoreContainer = document.createElement('div');
+  this.scoreContainer.classList.add('score-container');
+  this.scoreContainer.textContent = '0';
+  scoreWrapper.append(this.scoreContainer);
+  this.container.append(scoreWrapper); // Hi-score wrapper
+
+  var hiScoreWrapper = document.createElement('div');
+  hiScoreWrapper.classList.add('score-wrapper');
+  hiScoreWrapper.classList.add('score-wrapper-best');
+  var hiScoreLabel = document.createElement('div');
+  hiScoreLabel.classList.add('label');
+  hiScoreLabel.textContent = 'Hi-Score';
+  hiScoreWrapper.append(hiScoreLabel);
+  this.bestContainer = document.createElement('div');
+  this.bestContainer.classList.add('best-container');
+  this.bestContainer.textContent = '0';
+  hiScoreWrapper.append(this.bestContainer);
+  this.container.append(hiScoreWrapper); // Help text
+
+  this.helpText = document.createElement('div');
+  this.helpText.classList.add('helping-text');
+  this.helpText.textContent = 'Swipe over the board to merge tiles with the same picture.';
+  this.container.append(this.helpText); // Help hand
+
+  this.helpHand = document.createElement('div');
+  this.helpHand.classList.add('helping-hand');
+  this.container.append(this.helpHand);
   this.helpTimeout = null;
   this.score = 0;
 }
 
-HTMLActuator.prototype.actuate = function (grid, metadata) {
+HTMLView.prototype.actuate = function (grid, metadata) {
   var self = this;
   window.requestAnimationFrame(function () {
     self.clearContainer(self.tileContainer);
@@ -596,17 +683,17 @@ HTMLActuator.prototype.actuate = function (grid, metadata) {
 }; // Continues the game (both restart and keep playing)
 
 
-HTMLActuator.prototype.continueGame = function () {
+HTMLView.prototype.continueGame = function () {
   this.clearMessage();
 };
 
-HTMLActuator.prototype.clearContainer = function (container) {
+HTMLView.prototype.clearContainer = function (container) {
   while (container.firstChild) {
     container.removeChild(container.firstChild);
   }
 };
 
-HTMLActuator.prototype.addTile = function (tile) {
+HTMLView.prototype.addTile = function (tile) {
   var self = this;
   var wrapper = document.createElement("div");
   var inner = document.createElement("div");
@@ -649,23 +736,23 @@ HTMLActuator.prototype.addTile = function (tile) {
   this.tileContainer.appendChild(wrapper);
 };
 
-HTMLActuator.prototype.applyClasses = function (element, classes) {
+HTMLView.prototype.applyClasses = function (element, classes) {
   element.setAttribute("class", classes.join(" "));
 };
 
-HTMLActuator.prototype.normalizePosition = function (position) {
+HTMLView.prototype.normalizePosition = function (position) {
   return {
     x: position.x + 1,
     y: position.y + 1
   };
 };
 
-HTMLActuator.prototype.positionClass = function (position) {
+HTMLView.prototype.positionClass = function (position) {
   position = this.normalizePosition(position);
   return "tile-position-" + position.x + "-" + position.y;
 };
 
-HTMLActuator.prototype.updateScore = function (score) {
+HTMLView.prototype.updateScore = function (score) {
   this.clearContainer(this.scoreContainer);
   var difference = score - this.score;
   this.score = score;
@@ -679,31 +766,31 @@ HTMLActuator.prototype.updateScore = function (score) {
   }
 };
 
-HTMLActuator.prototype.updateBestScore = function (bestScore) {
+HTMLView.prototype.updateBestScore = function (bestScore) {
   this.bestContainer.textContent = bestScore;
 };
 
-HTMLActuator.prototype.message = function (won) {
+HTMLView.prototype.message = function (won) {
   var type = won ? "game-won" : "game-over";
   var message = won ? "You win!" : "Game over!";
   this.messageContainer.classList.add(type);
-  this.messageContainer.getElementsByTagName("p")[0].textContent = message;
+  this.messageContainerParagraph.textContent = message;
 };
 
-HTMLActuator.prototype.clearMessage = function () {
+HTMLView.prototype.clearMessage = function () {
   // IE only takes one value to remove at a time.
   this.messageContainer.classList.remove("game-won");
   this.messageContainer.classList.remove("game-over");
 };
 
-HTMLActuator.prototype.showHelp = function () {
+HTMLView.prototype.showHelp = function () {
   window.setTimeout(function () {
     this.helpHand.classList.add('shown');
     this.helpText.classList.add('shown');
   }.bind(this), 0);
 };
 
-HTMLActuator.prototype.hideHelp = function () {
+HTMLView.prototype.hideHelp = function () {
   if (this.helpTimeout !== null) {
     window.clearTimeout(this.helpTimeout);
     this.helpTimeout = null;
@@ -713,18 +800,18 @@ HTMLActuator.prototype.hideHelp = function () {
   this.helpText.classList.remove('shown');
 };
 
-HTMLActuator.prototype.blinkHelp = function () {
+HTMLView.prototype.blinkHelp = function () {
   this.hideHelp();
   this.helpTimeout = window.setTimeout(this.hideHelp.bind(this), 6000);
   this.showHelp();
 };
 
-module.exports = HTMLActuator;
+module.exports = HTMLView;
 
 },{}],8:[function(require,module,exports){
 "use strict";
 
-function KeyboardInputManager() {
+function InputManager() {
   this.events = {};
 
   if (window.navigator.msPointerEnabled) {
@@ -737,11 +824,9 @@ function KeyboardInputManager() {
     this.eventTouchmove = "touchmove";
     this.eventTouchend = "touchend";
   }
-
-  this.listen();
 }
 
-KeyboardInputManager.prototype.on = function (event, callback) {
+InputManager.prototype.on = function (event, callback) {
   if (!this.events[event]) {
     this.events[event] = [];
   }
@@ -749,7 +834,7 @@ KeyboardInputManager.prototype.on = function (event, callback) {
   this.events[event].push(callback);
 };
 
-KeyboardInputManager.prototype.emit = function (event, data) {
+InputManager.prototype.emit = function (event, data) {
   var callbacks = this.events[event];
 
   if (callbacks) {
@@ -759,7 +844,7 @@ KeyboardInputManager.prototype.emit = function (event, data) {
   }
 };
 
-KeyboardInputManager.prototype.listen = function () {
+InputManager.prototype.bindKeyboard = function () {
   var self = this;
   var map = {
     38: 0,
@@ -803,14 +888,13 @@ KeyboardInputManager.prototype.listen = function () {
     if (!modifiers && event.which === 82) {
       self.restart.call(self, event);
     }
-  }); // Respond to button presses
+  });
+};
 
-  this.bindButtonPress(".retry-button", this.restart);
-  this.bindButtonPress(".restart-button", this.restart);
-  this.bindButtonPress(".keep-playing-button", this.keepPlaying); // Respond to swipe events
+InputManager.prototype.bindGameContainer = function (gameContainer) {
+  var self = this; // Respond to swipe events
 
   var touchStartClientX, touchStartClientY;
-  var gameContainer = document.getElementsByClassName("game-container")[0];
   gameContainer.addEventListener(this.eventTouchstart, function (event) {
     if (!window.navigator.msPointerEnabled && event.touches.length > 1 || event.targetTouches.length > 1) {
       return; // Ignore if touching with more than 1 finger
@@ -856,23 +940,30 @@ KeyboardInputManager.prototype.listen = function () {
   });
 };
 
-KeyboardInputManager.prototype.restart = function (event) {
+InputManager.prototype.bindRestartButton = function (button) {
+  this.bindButtonPress(button, this.restart);
+};
+
+InputManager.prototype.bindKeepPlayingButton = function (button) {
+  this.bindButtonPress(button, this.keepPlaying);
+};
+
+InputManager.prototype.restart = function (event) {
   event.preventDefault();
   this.emit("restart");
 };
 
-KeyboardInputManager.prototype.keepPlaying = function (event) {
+InputManager.prototype.keepPlaying = function (event) {
   event.preventDefault();
   this.emit("keepPlaying");
 };
 
-KeyboardInputManager.prototype.bindButtonPress = function (selector, fn) {
-  var button = document.querySelector(selector);
+InputManager.prototype.bindButtonPress = function (button, fn) {
   button.addEventListener("click", fn.bind(this));
   button.addEventListener(this.eventTouchend, fn.bind(this));
 };
 
-module.exports = KeyboardInputManager;
+module.exports = InputManager;
 
 },{}],9:[function(require,module,exports){
 "use strict";
