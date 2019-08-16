@@ -38,14 +38,15 @@ var InputManager = require('./input_manager');
 
 var HTMLView = require('./html_view');
 
-var LocalStorageManager = require('./local_storage_manager'); // Wait till the browser is ready to render the game (avoids glitches)
+var LocalStorageManager = require('./local_storage_manager');
 
+var strings = require('./strings_de.json');
 
 window.requestAnimationFrame(function () {
-  new GameManager(window.document.body, 4, InputManager, HTMLView, LocalStorageManager);
+  new GameManager(window.document.body, 4, InputManager, HTMLView, LocalStorageManager, strings);
 });
 
-},{"./game_manager":5,"./html_view":7,"./input_manager":8,"./local_storage_manager":9}],3:[function(require,module,exports){
+},{"./game_manager":5,"./html_view":7,"./input_manager":8,"./local_storage_manager":9,"./strings_de.json":11}],3:[function(require,module,exports){
 "use strict";
 
 Function.prototype.bind = Function.prototype.bind || function (target) {
@@ -142,11 +143,11 @@ var Grid = require('./grid');
 
 var Tile = require('./tile');
 
-function GameManager(container, size, InputManager, View, StorageManager) {
+function GameManager(container, size, InputManager, View, StorageManager, strings) {
   this.size = size; // Size of the grid
 
   this.storageManager = new StorageManager();
-  this.view = new View();
+  this.view = new View(strings);
   container.append(this.view.container);
   this.inputManager = new InputManager();
   this.startTiles = 2;
@@ -437,7 +438,7 @@ GameManager.prototype.positionsEqual = function (first, second) {
 
 module.exports = GameManager;
 
-},{"./grid":6,"./tile":11}],6:[function(require,module,exports){
+},{"./grid":6,"./tile":12}],6:[function(require,module,exports){
 "use strict";
 
 var Tile = require('./tile');
@@ -562,10 +563,11 @@ Grid.prototype.serialize = function () {
 
 module.exports = Grid;
 
-},{"./tile":11}],7:[function(require,module,exports){
+},{"./tile":12}],7:[function(require,module,exports){
 "use strict";
 
-function HTMLView() {
+function HTMLView(strings) {
+  this.strings = strings;
   this.container = document.createElement('div');
   this.container.classList.add('container');
   this.gameContainer = document.createElement("div");
@@ -584,12 +586,12 @@ function HTMLView() {
 
   this.keepPlayingButton = document.createElement('a');
   this.keepPlayingButton.classList.add('keep-playing-button');
-  this.keepPlayingButton.textContent = 'Keep going';
+  this.keepPlayingButton.textContent = this.strings.KEEP_GOING;
   lower.append(this.keepPlayingButton); // ------ Retry button
 
   this.retryButton = document.createElement('a');
   this.retryButton.classList.add('retry-button');
-  this.retryButton.textContent = 'Try again';
+  this.retryButton.textContent = this.strings.TRY_AGAIN;
   lower.append(this.retryButton);
   this.messageContainer.append(lower); // Grid container
 
@@ -617,7 +619,7 @@ function HTMLView() {
 
   this.restartButton = document.createElement('a');
   this.restartButton.classList.add('restart-button');
-  this.restartButton.textContent = 'New Game';
+  this.restartButton.textContent = this.strings.NEW_GAME;
   this.container.append(this.restartButton); // Score wrapper
 
   var scoreWrapper = document.createElement('div');
@@ -625,7 +627,7 @@ function HTMLView() {
   scoreWrapper.classList.add('score-wrapper-score');
   var scoreLabel = document.createElement('div');
   scoreLabel.classList.add('label');
-  scoreLabel.textContent = 'Score';
+  scoreLabel.textContent = this.strings.SCORE;
   scoreWrapper.append(scoreLabel);
   this.scoreContainer = document.createElement('div');
   this.scoreContainer.classList.add('score-container');
@@ -638,7 +640,7 @@ function HTMLView() {
   hiScoreWrapper.classList.add('score-wrapper-best');
   var hiScoreLabel = document.createElement('div');
   hiScoreLabel.classList.add('label');
-  hiScoreLabel.textContent = 'Hi-Score';
+  hiScoreLabel.textContent = this.strings.HIGH_SCORE;
   hiScoreWrapper.append(hiScoreLabel);
   this.bestContainer = document.createElement('div');
   this.bestContainer.classList.add('best-container');
@@ -648,7 +650,7 @@ function HTMLView() {
 
   this.helpText = document.createElement('div');
   this.helpText.classList.add('helping-text');
-  this.helpText.textContent = 'Swipe over the board to merge tiles with the same picture.';
+  this.helpText.textContent = this.strings.HELP_TEXT;
   this.container.append(this.helpText); // Help hand
 
   this.helpHand = document.createElement('div');
@@ -772,7 +774,7 @@ HTMLView.prototype.updateBestScore = function (bestScore) {
 
 HTMLView.prototype.message = function (won) {
   var type = won ? "game-won" : "game-over";
-  var message = won ? "You win!" : "Game over!";
+  var message = won ? this.strings.YOU_WIN : this.strings.GAME_OVER;
   this.messageContainer.classList.add(type);
   this.messageContainerParagraph.textContent = message;
 };
@@ -1041,6 +1043,18 @@ require('./animframe_polyfill');
 require('./application');
 
 },{"./animframe_polyfill":1,"./application":2,"./bind_polyfill":3,"./classlist_polyfill":4}],11:[function(require,module,exports){
+module.exports={
+  "KEEP_GOING": "Keep going",
+  "TRY_AGAIN": "Try again",
+  "NEW_GAME": "New Game",
+  "SCORE": "Score",
+  "HIGH_SCORE": "High Score",
+  "HELP_TEXT": "Swipe over the board to merge tiles with the same picture.",
+  "YOU_WIN": "You win!",
+  "GAME_OVER": "Game over!"
+}
+
+},{}],12:[function(require,module,exports){
 "use strict";
 
 function Tile(position, value) {

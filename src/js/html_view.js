@@ -1,4 +1,5 @@
-function HTMLView() {
+function HTMLView(strings) {
+  this.strings = strings;
   this.container = document.createElement('div');
   this.container.classList.add('container');
 
@@ -19,12 +20,12 @@ function HTMLView() {
   // ------ Keep playing button
   this.keepPlayingButton = document.createElement('a');
   this.keepPlayingButton.classList.add('keep-playing-button');
-  this.keepPlayingButton.textContent = 'Keep going';
+  this.keepPlayingButton.textContent = this.strings.KEEP_GOING;
   lower.append(this.keepPlayingButton);
   // ------ Retry button
   this.retryButton = document.createElement('a');
   this.retryButton.classList.add('retry-button');
-  this.retryButton.textContent = 'Try again';
+  this.retryButton.textContent = this.strings.TRY_AGAIN;
   lower.append(this.retryButton);
   this.messageContainer.append(lower);
 
@@ -52,7 +53,7 @@ function HTMLView() {
   // Restart button
   this.restartButton = document.createElement('a');
   this.restartButton.classList.add('restart-button');
-  this.restartButton.textContent = 'New Game';
+  this.restartButton.textContent = this.strings.NEW_GAME;
   this.container.append(this.restartButton);
 
   // Score wrapper
@@ -61,7 +62,7 @@ function HTMLView() {
   scoreWrapper.classList.add('score-wrapper-score');
   const scoreLabel = document.createElement('div');
   scoreLabel.classList.add('label');
-  scoreLabel.textContent = 'Score';
+  scoreLabel.textContent = this.strings.SCORE;
   scoreWrapper.append(scoreLabel);
   this.scoreContainer = document.createElement('div');
   this.scoreContainer.classList.add('score-container');
@@ -75,7 +76,7 @@ function HTMLView() {
   hiScoreWrapper.classList.add('score-wrapper-best');
   const hiScoreLabel = document.createElement('div');
   hiScoreLabel.classList.add('label');
-  hiScoreLabel.textContent = 'Hi-Score';
+  hiScoreLabel.textContent = this.strings.HIGH_SCORE;
   hiScoreWrapper.append(hiScoreLabel);
   this.bestContainer = document.createElement('div');
   this.bestContainer.classList.add('best-container');
@@ -86,8 +87,7 @@ function HTMLView() {
   // Help text
   this.helpText = document.createElement('div');
   this.helpText.classList.add('helping-text');
-  this.helpText.textContent =
-    'Swipe over the board to merge tiles with the same picture.';
+  this.helpText.textContent = this.strings.HELP_TEXT;
   this.container.append(this.helpText);
 
   // Help hand
@@ -217,7 +217,7 @@ HTMLView.prototype.updateBestScore = function (bestScore) {
 
 HTMLView.prototype.message = function (won) {
   var type    = won ? "game-won" : "game-over";
-  var message = won ? "You win!" : "Game over!";
+  var message = won ? this.strings.YOU_WIN : this.strings.GAME_OVER;
 
   this.messageContainer.classList.add(type);
   this.messageContainerParagraph.textContent = message;

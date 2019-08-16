@@ -1,10 +1,10 @@
 const Grid = require('./grid');
 const Tile = require('./tile');
 
-function GameManager(container, size, InputManager, View, StorageManager) {
+function GameManager(container, size, InputManager, View, StorageManager, strings) {
   this.size           = size; // Size of the grid
   this.storageManager = new StorageManager;
-  this.view       = new View;
+  this.view       = new View(strings);
   container.append(this.view.container);
   this.inputManager   = new InputManager;
 
