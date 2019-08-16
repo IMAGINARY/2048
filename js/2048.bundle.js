@@ -1,144 +1,6 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 "use strict";
 
-(function () {
-  var lastTime = 0;
-  var vendors = ['webkit', 'moz'];
-
-  for (var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
-    window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
-    window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame'] || window[vendors[x] + 'CancelRequestAnimationFrame'];
-  }
-
-  if (!window.requestAnimationFrame) {
-    window.requestAnimationFrame = function (callback) {
-      var currTime = new Date().getTime();
-      var timeToCall = Math.max(0, 16 - (currTime - lastTime));
-      var id = window.setTimeout(function () {
-        callback(currTime + timeToCall);
-      }, timeToCall);
-      lastTime = currTime + timeToCall;
-      return id;
-    };
-  }
-
-  if (!window.cancelAnimationFrame) {
-    window.cancelAnimationFrame = function (id) {
-      clearTimeout(id);
-    };
-  }
-})();
-
-},{}],2:[function(require,module,exports){
-"use strict";
-
-var GameManager = require('./game_manager');
-
-var InputManager = require('./input_manager');
-
-var HTMLView = require('./html_view');
-
-var LocalStorageManager = require('./local_storage_manager');
-
-var strings = require('./strings_de.json');
-
-window.requestAnimationFrame(function () {
-  new GameManager(window.document.body, 4, InputManager, HTMLView, LocalStorageManager, strings);
-});
-
-},{"./game_manager":5,"./html_view":7,"./input_manager":8,"./local_storage_manager":9,"./strings_de.json":11}],3:[function(require,module,exports){
-"use strict";
-
-Function.prototype.bind = Function.prototype.bind || function (target) {
-  var self = this;
-  return function (args) {
-    if (!(args instanceof Array)) {
-      args = [args];
-    }
-
-    self.apply(target, args);
-  };
-};
-
-},{}],4:[function(require,module,exports){
-"use strict";
-
-(function () {
-  if (typeof window.Element === "undefined" || "classList" in document.documentElement) {
-    return;
-  }
-
-  var prototype = Array.prototype,
-      push = prototype.push,
-      splice = prototype.splice,
-      join = prototype.join;
-
-  function DOMTokenList(el) {
-    this.el = el; // The className needs to be trimmed and split on whitespace
-    // to retrieve a list of classes.
-
-    var classes = el.className.replace(/^\s+|\s+$/g, '').split(/\s+/);
-
-    for (var i = 0; i < classes.length; i++) {
-      push.call(this, classes[i]);
-    }
-  }
-
-  DOMTokenList.prototype = {
-    add: function add(token) {
-      if (this.contains(token)) return;
-      push.call(this, token);
-      this.el.className = this.toString();
-    },
-    contains: function contains(token) {
-      return this.el.className.indexOf(token) != -1;
-    },
-    item: function item(index) {
-      return this[index] || null;
-    },
-    remove: function remove(token) {
-      if (!this.contains(token)) return;
-
-      for (var i = 0; i < this.length; i++) {
-        if (this[i] == token) break;
-      }
-
-      splice.call(this, i, 1);
-      this.el.className = this.toString();
-    },
-    toString: function toString() {
-      return join.call(this, ' ');
-    },
-    toggle: function toggle(token) {
-      if (!this.contains(token)) {
-        this.add(token);
-      } else {
-        this.remove(token);
-      }
-
-      return this.contains(token);
-    }
-  };
-  window.DOMTokenList = DOMTokenList;
-
-  function defineElementGetter(obj, prop, getter) {
-    if (Object.defineProperty) {
-      Object.defineProperty(obj, prop, {
-        get: getter
-      });
-    } else {
-      obj.__defineGetter__(prop, getter);
-    }
-  }
-
-  defineElementGetter(HTMLElement.prototype, 'classList', function () {
-    return new DOMTokenList(this);
-  });
-})();
-
-},{}],5:[function(require,module,exports){
-"use strict";
-
 var Grid = require('./grid');
 
 var Tile = require('./tile');
@@ -438,7 +300,7 @@ GameManager.prototype.positionsEqual = function (first, second) {
 
 module.exports = GameManager;
 
-},{"./grid":6,"./tile":12}],6:[function(require,module,exports){
+},{"./grid":2,"./tile":11}],2:[function(require,module,exports){
 "use strict";
 
 var Tile = require('./tile');
@@ -563,7 +425,7 @@ Grid.prototype.serialize = function () {
 
 module.exports = Grid;
 
-},{"./tile":12}],7:[function(require,module,exports){
+},{"./tile":11}],3:[function(require,module,exports){
 "use strict";
 
 function HTMLView(strings) {
@@ -810,7 +672,7 @@ HTMLView.prototype.blinkHelp = function () {
 
 module.exports = HTMLView;
 
-},{}],8:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 "use strict";
 
 function InputManager() {
@@ -967,7 +829,7 @@ InputManager.prototype.bindButtonPress = function (button, fn) {
 
 module.exports = InputManager;
 
-},{}],9:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 "use strict";
 
 window.fakeStorage = {
@@ -1031,18 +893,151 @@ LocalStorageManager.prototype.clearGameState = function () {
 
 module.exports = LocalStorageManager;
 
-},{}],10:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 "use strict";
 
-require('./bind_polyfill');
+require('./polyfills/bind_polyfill');
 
-require('./classlist_polyfill');
+require('./polyfills/classlist_polyfill');
 
-require('./animframe_polyfill');
+require('./polyfills/animframe_polyfill');
 
-require('./application');
+var GameManager = require('./game_manager');
 
-},{"./animframe_polyfill":1,"./application":2,"./bind_polyfill":3,"./classlist_polyfill":4}],11:[function(require,module,exports){
+var InputManager = require('./input_manager');
+
+var HTMLView = require('./html_view');
+
+var LocalStorageManager = require('./local_storage_manager');
+
+var strings = require('./strings_de.json');
+
+window.requestAnimationFrame(function () {
+  new GameManager(window.document.body, 4, InputManager, HTMLView, LocalStorageManager, strings);
+});
+
+},{"./game_manager":1,"./html_view":3,"./input_manager":4,"./local_storage_manager":5,"./polyfills/animframe_polyfill":7,"./polyfills/bind_polyfill":8,"./polyfills/classlist_polyfill":9,"./strings_de.json":10}],7:[function(require,module,exports){
+"use strict";
+
+(function () {
+  var lastTime = 0;
+  var vendors = ['webkit', 'moz'];
+
+  for (var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+    window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
+    window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame'] || window[vendors[x] + 'CancelRequestAnimationFrame'];
+  }
+
+  if (!window.requestAnimationFrame) {
+    window.requestAnimationFrame = function (callback) {
+      var currTime = new Date().getTime();
+      var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+      var id = window.setTimeout(function () {
+        callback(currTime + timeToCall);
+      }, timeToCall);
+      lastTime = currTime + timeToCall;
+      return id;
+    };
+  }
+
+  if (!window.cancelAnimationFrame) {
+    window.cancelAnimationFrame = function (id) {
+      clearTimeout(id);
+    };
+  }
+})();
+
+},{}],8:[function(require,module,exports){
+"use strict";
+
+Function.prototype.bind = Function.prototype.bind || function (target) {
+  var self = this;
+  return function (args) {
+    if (!(args instanceof Array)) {
+      args = [args];
+    }
+
+    self.apply(target, args);
+  };
+};
+
+},{}],9:[function(require,module,exports){
+"use strict";
+
+(function () {
+  if (typeof window.Element === "undefined" || "classList" in document.documentElement) {
+    return;
+  }
+
+  var prototype = Array.prototype,
+      push = prototype.push,
+      splice = prototype.splice,
+      join = prototype.join;
+
+  function DOMTokenList(el) {
+    this.el = el; // The className needs to be trimmed and split on whitespace
+    // to retrieve a list of classes.
+
+    var classes = el.className.replace(/^\s+|\s+$/g, '').split(/\s+/);
+
+    for (var i = 0; i < classes.length; i++) {
+      push.call(this, classes[i]);
+    }
+  }
+
+  DOMTokenList.prototype = {
+    add: function add(token) {
+      if (this.contains(token)) return;
+      push.call(this, token);
+      this.el.className = this.toString();
+    },
+    contains: function contains(token) {
+      return this.el.className.indexOf(token) != -1;
+    },
+    item: function item(index) {
+      return this[index] || null;
+    },
+    remove: function remove(token) {
+      if (!this.contains(token)) return;
+
+      for (var i = 0; i < this.length; i++) {
+        if (this[i] == token) break;
+      }
+
+      splice.call(this, i, 1);
+      this.el.className = this.toString();
+    },
+    toString: function toString() {
+      return join.call(this, ' ');
+    },
+    toggle: function toggle(token) {
+      if (!this.contains(token)) {
+        this.add(token);
+      } else {
+        this.remove(token);
+      }
+
+      return this.contains(token);
+    }
+  };
+  window.DOMTokenList = DOMTokenList;
+
+  function defineElementGetter(obj, prop, getter) {
+    if (Object.defineProperty) {
+      Object.defineProperty(obj, prop, {
+        get: getter
+      });
+    } else {
+      obj.__defineGetter__(prop, getter);
+    }
+  }
+
+  defineElementGetter(HTMLElement.prototype, 'classList', function () {
+    return new DOMTokenList(this);
+  });
+})();
+
+},{}],10:[function(require,module,exports){
 module.exports={
   "KEEP_GOING": "Keep going",
   "TRY_AGAIN": "Try again",
@@ -1054,7 +1049,7 @@ module.exports={
   "GAME_OVER": "Game over!"
 }
 
-},{}],12:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 "use strict";
 
 function Tile(position, value) {
@@ -1089,4 +1084,4 @@ Tile.prototype.serialize = function () {
 
 module.exports = Tile;
 
-},{}]},{},[10]);
+},{}]},{},[6]);
