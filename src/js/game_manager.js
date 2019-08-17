@@ -1,10 +1,11 @@
 const Grid = require('./grid');
 const Tile = require('./tile');
 
-function GameManager(container, size, InputManager, View, StorageManager, strings) {
-  this.size           = size; // Size of the grid
+function GameManager(container, InputManager, View, StorageManager, config) {
+  this.config = config;
+  this.size           = config.size; // Size of the grid
   this.storageManager = new StorageManager;
-  this.view       = new View(strings);
+  this.view       = new View(config.strings);
   container.append(this.view.element);
   this.inputManager   = new InputManager;
 
@@ -27,7 +28,9 @@ function GameManager(container, size, InputManager, View, StorageManager, string
 
 // Restart the game
 GameManager.prototype.restart = function () {
-  this.storageManager.clearGameState();
+  if (this.config.persistGameState) {
+    this.storageManager.clearGameState();
+  }
   this.view.continueGame(); // Clear the game won/lost message
   this.setup();
 
@@ -47,7 +50,10 @@ GameManager.prototype.isGameTerminated = function () {
 
 // Set up the game
 GameManager.prototype.setup = function () {
-  var previousState = this.storageManager.getGameState();
+  var previousState = null;
+  if (this.config.persistGameState) {
+    previousState = this.storageManager.getGameState();
+  }
 
   // Reload the game from a previous game if present
   if (previousState) {
@@ -96,10 +102,12 @@ GameManager.prototype.actuate = function () {
   }
 
   // Clear the state when the game is over (game over only, not win)
-  if (this.over) {
-    this.storageManager.clearGameState();
-  } else {
-    this.storageManager.setGameState(this.serialize());
+  if (this.config.persistGameState) {
+    if (this.over) {
+      this.storageManager.clearGameState();
+    } else {
+      this.storageManager.setGameState(this.serialize());
+    }
   }
 
   this.view.actuate(this.grid, {

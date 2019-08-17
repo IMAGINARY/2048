@@ -5,11 +5,12 @@ var Grid = require('./grid');
 
 var Tile = require('./tile');
 
-function GameManager(container, size, InputManager, View, StorageManager, strings) {
-  this.size = size; // Size of the grid
+function GameManager(container, InputManager, View, StorageManager, config) {
+  this.config = config;
+  this.size = config.size; // Size of the grid
 
   this.storageManager = new StorageManager();
-  this.view = new View(strings);
+  this.view = new View(config.strings);
   container.append(this.view.element);
   this.inputManager = new InputManager();
   this.startTiles = 2;
@@ -27,7 +28,10 @@ function GameManager(container, size, InputManager, View, StorageManager, string
 
 
 GameManager.prototype.restart = function () {
-  this.storageManager.clearGameState();
+  if (this.config.persistGameState) {
+    this.storageManager.clearGameState();
+  }
+
   this.view.continueGame(); // Clear the game won/lost message
 
   this.setup();
@@ -47,7 +51,12 @@ GameManager.prototype.isGameTerminated = function () {
 
 
 GameManager.prototype.setup = function () {
-  var previousState = this.storageManager.getGameState(); // Reload the game from a previous game if present
+  var previousState = null;
+
+  if (this.config.persistGameState) {
+    previousState = this.storageManager.getGameState();
+  } // Reload the game from a previous game if present
+
 
   if (previousState) {
     this.grid = new Grid(previousState.grid.size, previousState.grid.cells); // Reload grid
@@ -93,10 +102,12 @@ GameManager.prototype.actuate = function () {
   } // Clear the state when the game is over (game over only, not win)
 
 
-  if (this.over) {
-    this.storageManager.clearGameState();
-  } else {
-    this.storageManager.setGameState(this.serialize());
+  if (this.config.persistGameState) {
+    if (this.over) {
+      this.storageManager.clearGameState();
+    } else {
+      this.storageManager.setGameState(this.serialize());
+    }
   }
 
   this.view.actuate(this.grid, {
@@ -924,7 +935,12 @@ var LocalStorageManager = require('./local_storage_manager');
 var strings = require('./strings_de.json');
 
 window.requestAnimationFrame(function () {
-  new GameManager(window.document.body, 4, InputManager, HTMLView, LocalStorageManager, strings);
+  var config = {
+    size: 4,
+    persistGameState: false,
+    strings: strings
+  };
+  new GameManager(window.document.body, InputManager, HTMLView, LocalStorageManager, config);
 });
 
 },{"./game_manager":1,"./html_view":3,"./input_manager":4,"./local_storage_manager":5,"./polyfills/animframe_polyfill":7,"./polyfills/bind_polyfill":8,"./polyfills/classlist_polyfill":9,"./strings_de.json":10}],7:[function(require,module,exports){

@@ -8,12 +8,18 @@ const LocalStorageManager = require('./local_storage_manager');
 const strings = require('./strings_de.json');
 
 window.requestAnimationFrame(function () {
+
+  const config = {
+    size: 4,
+    persistGameState: false,
+    strings
+  };
+
   new GameManager(
     window.document.body,
-    4,
     InputManager,
     HTMLView,
     LocalStorageManager,
-    strings
+    config
   );
 });
