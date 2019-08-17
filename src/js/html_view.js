@@ -1,7 +1,12 @@
 function HTMLView(strings) {
   this.strings = strings;
+
+  this.element = document.createElement('div');
+  this.element.classList.add('game2048');
+
   this.container = document.createElement('div');
   this.container.classList.add('container');
+  this.element.append(this.container);
 
   this.gameContainer = document.createElement("div");
   this.gameContainer.classList.add('game-container');

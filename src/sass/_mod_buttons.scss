@@ -1,0 +1,18 @@
+@mixin button {
+  display: inline-block;
+  background: darken($game-container-background, 20%);
+  border-radius: 3px;
+  padding: 14px 34px;
+  text-decoration: none;
+  color: $bright-text-color;
+  font-size: 28px;
+  text-transform: uppercase;
+  line-height: 42px;
+}
+
+.restart-button {
+  @include button;
+  display: block;
+  text-align: center;
+  float: right;
+}

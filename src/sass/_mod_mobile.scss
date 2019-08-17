@@ -1,0 +1,72 @@
+@include smaller($mobile-threshold) {
+  // Redefine variables for smaller screens
+  $field-width: 280px;
+  $grid-spacing: 10px;
+  $grid-row-cells: 4;
+  $tile-size: ($field-width - $grid-spacing * ($grid-row-cells + 1)) / $grid-row-cells;
+  $tile-border-radius: 3px;
+  $game-container-margin-top: 17px;
+
+  html, body {
+    font-size: 15px;
+  }
+
+  body {
+    margin: 20px 0;
+    padding: 0 20px;
+  }
+
+  .game2048 {
+    h1.title {
+      font-size: 27px;
+      margin-top: 15px;
+    }
+
+    .container {
+      width: $field-width;
+      margin: 0 auto;
+    }
+
+    .heading {
+      margin-bottom: 10px;
+    }
+
+    // Show intro and restart button side by side
+    .game-intro {
+      width: 55%;
+      display: block;
+      box-sizing: border-box;
+      line-height: 1.65;
+    }
+
+    .restart-button {
+      width: 42%;
+      padding: 0;
+      display: block;
+      box-sizing: border-box;
+      margin-top: 2px;
+    }
+
+    // Render the game field at the right width
+    @include game-field;
+
+    // Rest of the font-size adjustments in the tile class
+    .tile .tile-inner {
+      font-size: 35px;
+    }
+
+    .game-message {
+      p {
+        font-size: 30px !important;
+        height: 30px !important;
+        line-height: 30px !important;
+        margin-top: 90px !important;
+        margin-bottom: 10px;
+      }
+
+      .lower {
+        margin-top: 30px !important;
+      }
+    }
+  }
+}

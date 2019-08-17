@@ -5,7 +5,7 @@ function GameManager(container, size, InputManager, View, StorageManager, string
   this.size           = size; // Size of the grid
   this.storageManager = new StorageManager;
   this.view       = new View(strings);
-  container.append(this.view.container);
+  container.append(this.view.element);
   this.inputManager   = new InputManager;
 
   this.startTiles = 2;

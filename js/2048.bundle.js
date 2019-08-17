@@ -10,7 +10,7 @@ function GameManager(container, size, InputManager, View, StorageManager, string
 
   this.storageManager = new StorageManager();
   this.view = new View(strings);
-  container.append(this.view.container);
+  container.append(this.view.element);
   this.inputManager = new InputManager();
   this.startTiles = 2;
   this.inputManager.bindGameContainer(this.view.gameContainer);
@@ -430,8 +430,11 @@ module.exports = Grid;
 
 function HTMLView(strings) {
   this.strings = strings;
+  this.element = document.createElement('div');
+  this.element.classList.add('game2048');
   this.container = document.createElement('div');
   this.container.classList.add('container');
+  this.element.append(this.container);
   this.gameContainer = document.createElement("div");
   this.gameContainer.classList.add('game-container');
   this.container.append(this.gameContainer); // Message Container

@@ -1,6 +1,17 @@
 @import "helpers";
 @import "colors";
-@import "base";
-@import "tiles";
-@import "hand";
-@import "layout";
+@import "animations";
+
+.game2048 {
+  @import "base";
+  @import "mod_buttons";
+  @import "mod_score";
+  @import "mod_gamefield";
+  @import "mod_tiles";
+  @import "mod_surfer";
+  @import "mod_hand";
+  @import "mod_layout";
+}
+
+// Disabled for Content Slider. Left for reference.
+//@include "mod_mobile";
