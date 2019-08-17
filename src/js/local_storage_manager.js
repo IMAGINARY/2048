@@ -1,4 +1,12 @@
-window.fakeStorage = {
+if (window.IMAGINARY === undefined) {
+  window.IMAGINARY = {};
+}
+
+if (window.IMAGINARY.game2048 === undefined) {
+  window.IMAGINARY.game2048 = {};
+}
+
+window.IMAGINARY.game2048.fakeStorage = {
   _data: {},
 
   setItem: function (id, val) {
@@ -23,7 +31,9 @@ function LocalStorageManager() {
   this.gameStateKey     = "gameState";
 
   var supported = this.localStorageSupported();
-  this.storage = supported ? window.localStorage : window.fakeStorage;
+  this.storage = supported ?
+    window.localStorage :
+    window.IMAGINARY.game2048.fakeStorage;
 }
 
 LocalStorageManager.prototype.localStorageSupported = function () {
