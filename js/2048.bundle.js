@@ -871,8 +871,9 @@ window.IMAGINARY.game2048.fakeStorage = {
 };
 
 function LocalStorageManager() {
-  this.bestScoreKey = "bestScore";
-  this.gameStateKey = "gameState";
+  this.bestScoreKey = "IMAGINARY.game2048.bestScore";
+  this.bestScoreDateKey = "IMAGINARY.game2048.bestScoreDate";
+  this.gameStateKey = "IMAGINARY.game2048.gameState";
   var supported = this.localStorageSupported();
   this.storage = supported ? window.localStorage : window.IMAGINARY.game2048.fakeStorage;
 }
@@ -888,14 +889,31 @@ LocalStorageManager.prototype.localStorageSupported = function () {
   } catch (error) {
     return false;
   }
+};
+
+LocalStorageManager.prototype.getCurrentDate = function () {
+  var now = new Date();
+
+  var pad2 = function pad2(number) {
+    return number.toString().padStart(2, '0');
+  };
+
+  return [now.getFullYear(), pad2(now.getMonth() + 1), pad2(now.getDate())].join('-');
 }; // Best score getters/setters
 
 
 LocalStorageManager.prototype.getBestScore = function () {
-  return this.storage.getItem(this.bestScoreKey) || 0;
+  var bestDate = this.storage.getItem(this.bestScoreDateKey);
+
+  if (bestDate === this.getCurrentDate()) {
+    return this.storage.getItem(this.bestScoreKey) || 0;
+  }
+
+  return 0;
 };
 
 LocalStorageManager.prototype.setBestScore = function (score) {
+  this.storage.setItem(this.bestScoreDateKey, this.getCurrentDate());
   this.storage.setItem(this.bestScoreKey, score);
 }; // Game state getters/setters and clearing
 
