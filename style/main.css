@@ -573,6 +573,9 @@
   .game2048 .tile.tile-2048 .tile-inner:hover {
     font-size: 55px; }
 
+.game2048.paused .tile-inner {
+  background-image: none !important; }
+
 @-webkit-keyframes help-swipe-right {
   0% {
     left: -10%;

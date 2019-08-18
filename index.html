@@ -21,6 +21,10 @@
   </style>
 </head>
 <body>
-  <script src="js/2048.bundle.min.js"></script>
+  <script src="js/game2048.min.js"></script>
+  <script>
+    var game = new Game2048();
+    window.document.body.append(game.domElement);
+  </script>
 </body>
 </html>

@@ -19,23 +19,26 @@ var paths = {
   },
 };
 
+const bundleName = 'game2048';
+const globalName = 'Game2048';
 
 function scripts() {
   return browserify({
     extensions: ['.js'],
     entries: './src/js/main.js',
+    standalone: globalName,
   })
     .transform('babelify', { presets: ['@babel/env'] })
     .on('error', function(msg) {
       console.error(msg);
     })
     .bundle()
-    .pipe(source('2048.bundle.js'))
+    .pipe(source(`${bundleName}.js`))
     .pipe(buffer())
     .pipe(sourcemaps.init())
     .pipe(gulp.dest(paths.scripts.dest))
     .pipe(uglify())
-    .pipe(rename('2048.bundle.min.js'))
+    .pipe(rename(`${bundleName}.min.js`))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(paths.scripts.dest));
 }

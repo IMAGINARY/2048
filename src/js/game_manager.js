@@ -1,12 +1,11 @@
 const Grid = require('./grid');
 const Tile = require('./tile');
 
-function GameManager(container, InputManager, View, StorageManager, config) {
+function GameManager(InputManager, View, StorageManager, config) {
   this.config = config;
   this.size           = config.size; // Size of the grid
   this.storageManager = new StorageManager;
   this.view       = new View(config.strings);
-  container.append(this.view.element);
   this.inputManager   = new InputManager;
 
   this.startTiles = 2;
@@ -24,6 +23,10 @@ function GameManager(container, InputManager, View, StorageManager, config) {
 
   this.setup();
   this.view.blinkHelp();
+}
+
+GameManager.prototype.getElement = function() {
+  return this.view.element;
 }
 
 // Restart the game
@@ -292,5 +295,13 @@ GameManager.prototype.tileMatchesAvailable = function () {
 GameManager.prototype.positionsEqual = function (first, second) {
   return first.x === second.x && first.y === second.y;
 };
+
+GameManager.prototype.pause = function() {
+  this.view.pause();
+}
+
+GameManager.prototype.resume = function() {
+  this.view.resume();
+}
 
 module.exports = GameManager;

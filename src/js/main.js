@@ -7,19 +7,37 @@ const HTMLView = require('./html_view');
 const LocalStorageManager = require('./local_storage_manager');
 const strings = require('./strings_de.json');
 
-window.requestAnimationFrame(function () {
+class Game2048 {
+  constructor(){
+    const config = {
+      size: 4,
+      persistGameState: false,
+      strings
+    };
 
-  const config = {
-    size: 4,
-    persistGameState: false,
-    strings
-  };
+    this.gameManager = new GameManager(
+      InputManager,
+      HTMLView,
+      LocalStorageManager,
+      config
+    );
+  }
 
-  new GameManager(
-    window.document.body,
-    InputManager,
-    HTMLView,
-    LocalStorageManager,
-    config
-  );
-});
+  get domElement() {
+    return this.gameManager.getElement();
+  }
+
+  pause() {
+    this.gameManager.pause();
+  }
+
+  resume() {
+    this.gameManager.resume();
+  }
+
+  reset() {
+    this.gameManager.restart();
+  }
+}
+
+module.exports = Game2048;

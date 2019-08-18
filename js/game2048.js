@@ -1,17 +1,16 @@
-(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.Game2048 = f()}})(function(){var define,module,exports;return (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 "use strict";
 
 var Grid = require('./grid');
 
 var Tile = require('./tile');
 
-function GameManager(container, InputManager, View, StorageManager, config) {
+function GameManager(InputManager, View, StorageManager, config) {
   this.config = config;
   this.size = config.size; // Size of the grid
 
   this.storageManager = new StorageManager();
   this.view = new View(config.strings);
-  container.append(this.view.element);
   this.inputManager = new InputManager();
   this.startTiles = 2;
   this.inputManager.bindGameContainer(this.view.gameContainer);
@@ -24,7 +23,11 @@ function GameManager(container, InputManager, View, StorageManager, config) {
   this.helpTimeout = null;
   this.setup();
   this.view.blinkHelp();
-} // Restart the game
+}
+
+GameManager.prototype.getElement = function () {
+  return this.view.element;
+}; // Restart the game
 
 
 GameManager.prototype.restart = function () {
@@ -307,6 +310,14 @@ GameManager.prototype.tileMatchesAvailable = function () {
 
 GameManager.prototype.positionsEqual = function (first, second) {
   return first.x === second.x && first.y === second.y;
+};
+
+GameManager.prototype.pause = function () {
+  this.view.pause();
+};
+
+GameManager.prototype.resume = function () {
+  this.view.resume();
 };
 
 module.exports = GameManager;
@@ -684,6 +695,14 @@ HTMLView.prototype.blinkHelp = function () {
   this.showHelp();
 };
 
+HTMLView.prototype.pause = function () {
+  this.element.classList.add('paused');
+};
+
+HTMLView.prototype.resume = function () {
+  this.element.classList.remove('paused');
+};
+
 module.exports = HTMLView;
 
 },{}],4:[function(require,module,exports){
@@ -936,6 +955,12 @@ module.exports = LocalStorageManager;
 },{}],6:[function(require,module,exports){
 "use strict";
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 require('./polyfills/bind_polyfill');
 
 require('./polyfills/classlist_polyfill');
@@ -952,14 +977,46 @@ var LocalStorageManager = require('./local_storage_manager');
 
 var strings = require('./strings_de.json');
 
-window.requestAnimationFrame(function () {
-  var config = {
-    size: 4,
-    persistGameState: false,
-    strings: strings
-  };
-  new GameManager(window.document.body, InputManager, HTMLView, LocalStorageManager, config);
-});
+var Game2048 =
+/*#__PURE__*/
+function () {
+  function Game2048() {
+    _classCallCheck(this, Game2048);
+
+    var config = {
+      size: 4,
+      persistGameState: false,
+      strings: strings
+    };
+    this.gameManager = new GameManager(InputManager, HTMLView, LocalStorageManager, config);
+  }
+
+  _createClass(Game2048, [{
+    key: "pause",
+    value: function pause() {
+      this.gameManager.pause();
+    }
+  }, {
+    key: "resume",
+    value: function resume() {
+      this.gameManager.resume();
+    }
+  }, {
+    key: "reset",
+    value: function reset() {
+      this.gameManager.restart();
+    }
+  }, {
+    key: "domElement",
+    get: function get() {
+      return this.gameManager.getElement();
+    }
+  }]);
+
+  return Game2048;
+}();
+
+module.exports = Game2048;
 
 },{"./game_manager":1,"./html_view":3,"./input_manager":4,"./local_storage_manager":5,"./polyfills/animframe_polyfill":7,"./polyfills/bind_polyfill":8,"./polyfills/classlist_polyfill":9,"./strings_de.json":10}],7:[function(require,module,exports){
 "use strict";
@@ -1129,4 +1186,5 @@ Tile.prototype.serialize = function () {
 
 module.exports = Tile;
 
-},{}]},{},[6]);
+},{}]},{},[6])(6)
+});
