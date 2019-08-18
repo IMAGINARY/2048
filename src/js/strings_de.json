@@ -1,10 +1,10 @@
 {
-  "KEEP_GOING": "Keep going",
-  "TRY_AGAIN": "Try again",
-  "NEW_GAME": "New Game",
-  "SCORE": "Score",
-  "HIGH_SCORE": "High Score",
-  "HELP_TEXT": "Swipe over the board to merge tiles with the same picture.",
-  "YOU_WIN": "You win!",
+  "KEEP_GOING": "Mach weiter",
+  "TRY_AGAIN": "Nochmal versuchen",
+  "NEW_GAME": "Neues Spiel",
+  "SCORE": "Punkte",
+  "HIGH_SCORE": "Tagesrekord",
+  "HELP_TEXT": "Wische über das Spielfeld, um Kacheln mit demselben Symbol zu verschmelzen.",
+  "YOU_WIN": "Gewonnen!",
   "GAME_OVER": "Game over!"
 }
