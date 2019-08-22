@@ -1,16 +1,7 @@
+const Hammer = require('hammerjs');
+
 function InputManager() {
   this.events = {};
-
-  if (window.navigator.msPointerEnabled) {
-    //Internet Explorer 10 style
-    this.eventTouchstart    = "MSPointerDown";
-    this.eventTouchmove     = "MSPointerMove";
-    this.eventTouchend      = "MSPointerUp";
-  } else {
-    this.eventTouchstart    = "touchstart";
-    this.eventTouchmove     = "touchmove";
-    this.eventTouchend      = "touchend";
-  }
 }
 
 InputManager.prototype.on = function (event, callback) {
@@ -69,57 +60,14 @@ InputManager.prototype.bindKeyboard = function () {
 
 InputManager.prototype.bindGameContainer = function (gameContainer) {
   var self = this;
-  // Respond to swipe events
-  var touchStartClientX, touchStartClientY;
 
-  gameContainer.addEventListener(this.eventTouchstart, function (event) {
-    if ((!window.navigator.msPointerEnabled && event.touches.length > 1) ||
-        event.targetTouches.length > 1) {
-      return; // Ignore if touching with more than 1 finger
-    }
+  var mc = new Hammer.Manager(gameContainer);
+  mc.add( new Hammer.Swipe() );
 
-    if (window.navigator.msPointerEnabled) {
-      touchStartClientX = event.pageX;
-      touchStartClientY = event.pageY;
-    } else {
-      touchStartClientX = event.touches[0].clientX;
-      touchStartClientY = event.touches[0].clientY;
-    }
-
-    event.preventDefault();
-  });
-
-  gameContainer.addEventListener(this.eventTouchmove, function (event) {
-    event.preventDefault();
-  });
-
-  gameContainer.addEventListener(this.eventTouchend, function (event) {
-    if ((!window.navigator.msPointerEnabled && event.touches.length > 0) ||
-        event.targetTouches.length > 0) {
-      return; // Ignore if still touching with one or more fingers
-    }
-
-    var touchEndClientX, touchEndClientY;
-
-    if (window.navigator.msPointerEnabled) {
-      touchEndClientX = event.pageX;
-      touchEndClientY = event.pageY;
-    } else {
-      touchEndClientX = event.changedTouches[0].clientX;
-      touchEndClientY = event.changedTouches[0].clientY;
-    }
-
-    var dx = touchEndClientX - touchStartClientX;
-    var absDx = Math.abs(dx);
-
-    var dy = touchEndClientY - touchStartClientY;
-    var absDy = Math.abs(dy);
-
-    if (Math.max(absDx, absDy) > 10) {
-      // (right : left) : (down : up)
-      self.emit("move", absDx > absDy ? (dx > 0 ? 1 : 3) : (dy > 0 ? 2 : 0));
-    }
-  });
+  mc.on('swiperight', () => self.emit("move", 1 ));
+  mc.on('swipeleft', () => self.emit("move", 3 ));
+  mc.on('swipeup', () => self.emit("move", 0 ));
+  mc.on('swipedown', () => self.emit("move", 2 ));
 };
 
 InputManager.prototype.bindRestartButton = function(button) {
