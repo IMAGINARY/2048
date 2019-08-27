@@ -21,6 +21,8 @@ function GameManager(InputManager, View, StorageManager, config) {
 
   this.helpTimeout = null;
 
+  this.storageManager.on('newHighScore', this.handleNewHighScore.bind(this));
+
   this.setup();
   this.view.blinkHelp();
 }
@@ -296,12 +298,16 @@ GameManager.prototype.positionsEqual = function (first, second) {
   return first.x === second.x && first.y === second.y;
 };
 
+GameManager.prototype.handleNewHighScore = function(score) {
+  this.view.updateBestScore(score);
+};
+
 GameManager.prototype.pause = function() {
   this.view.pause();
-}
+};
 
 GameManager.prototype.resume = function() {
   this.view.resume();
-}
+};
 
 module.exports = GameManager;

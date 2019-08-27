@@ -32,10 +32,10 @@
   <script src="../../js/game2048.min.js"></script>
   <script>
     TouchEmulator();
-    var game1 = new Game2048();
-    var game2 = new Game2048();
-    window.document.getElementById('game1-container').append(game1.domElement);
-    window.document.getElementById('game2-container').append(game2.domElement);
+    window.game1 = new Game2048();
+    window.game2 = new Game2048();
+    window.document.getElementById('game1-container').append(window.game1.domElement);
+    window.document.getElementById('game2-container').append(window.game2.domElement);
   </script>
 </body>
 </html>

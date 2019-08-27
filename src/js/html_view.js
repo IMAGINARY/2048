@@ -259,10 +259,10 @@ HTMLView.prototype.blinkHelp = function() {
 
 HTMLView.prototype.pause = function() {
   this.element.classList.add('paused');
-}
+};
 
 HTMLView.prototype.resume = function() {
   this.element.classList.remove('paused');
-}
+};
 
 module.exports = HTMLView;

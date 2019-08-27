@@ -1,3 +1,5 @@
+const EventEmitter = require('events');
+
 if (window.IMAGINARY === undefined) {
   window.IMAGINARY = {};
 }
@@ -5,6 +7,8 @@ if (window.IMAGINARY === undefined) {
 if (window.IMAGINARY.game2048 === undefined) {
   window.IMAGINARY.game2048 = {};
 }
+
+window.IMAGINARY.game2048.events = new EventEmitter();
 
 window.IMAGINARY.game2048.fakeStorage = {
   _data: {},
@@ -53,8 +57,12 @@ LocalStorageManager.prototype.localStorageSupported = function () {
 LocalStorageManager.prototype.getCurrentDate = function() {
   const now = new Date();
   const pad2 = (number) => number.toString().padStart(2, '0');
-  return [now.getFullYear(), pad2(now.getMonth() + 1), pad2(now.getDate())].join('-');
-}
+  return [
+    now.getFullYear(),
+    pad2(now.getMonth() + 1),
+    pad2(now.getDate())
+  ].join('-');
+};
 
 // Best score getters/setters
 LocalStorageManager.prototype.getBestScore = function () {
@@ -68,6 +76,7 @@ LocalStorageManager.prototype.getBestScore = function () {
 LocalStorageManager.prototype.setBestScore = function (score) {
   this.storage.setItem(this.bestScoreDateKey, this.getCurrentDate());
   this.storage.setItem(this.bestScoreKey, score);
+  window.IMAGINARY.game2048.events.emit('newHighScore', score);
 };
 
 // Game state getters/setters and clearing
@@ -83,5 +92,10 @@ LocalStorageManager.prototype.setGameState = function (gameState) {
 LocalStorageManager.prototype.clearGameState = function () {
   this.storage.removeItem(this.gameStateKey);
 };
+
+LocalStorageManager.prototype.on = function(...args) {
+  return window.IMAGINARY.game2048.events.on(...args);
+};
+
 
 module.exports = LocalStorageManager;
