@@ -90,8 +90,8 @@ InputManager.prototype.keepPlaying = function (event) {
 };
 
 InputManager.prototype.bindButtonPress = function (button, fn) {
-  button.addEventListener("click", fn.bind(this));
-  button.addEventListener(this.eventTouchend, fn.bind(this));
+  const hammertime = new Hammer(button);
+  hammertime.on('tap', fn.bind(this));
 };
 
 module.exports = InputManager;
