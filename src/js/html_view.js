@@ -160,6 +160,10 @@ HTMLView.prototype.addTile = function (tile) {
   inner.classList.add("tile-inner");
   inner.textContent = tile.value;
 
+  inner.ontouchstart = () => inner.classList.add("hover");
+  inner.ontouchend = () => inner.classList.remove("hover");
+  inner.ontouchcancel = () => inner.classList.remove("hover");
+
   if (tile.previousPosition) {
     // Make sure that the tile gets rendered in the previous position first
     window.requestAnimationFrame(function () {
