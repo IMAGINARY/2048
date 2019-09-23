@@ -3772,18 +3772,15 @@ HTMLView.prototype.addTile = function (tile) {
   this.applyClasses(wrapper, classes);
   inner.classList.add("tile-inner");
   inner.textContent = tile.value;
-
-  inner.ontouchstart = function () {
+  inner.addEventListener('touchstart', function () {
     return inner.classList.add("hover");
-  };
-
-  inner.ontouchend = function () {
+  });
+  inner.addEventListener('touchend', function () {
     return inner.classList.remove("hover");
-  };
-
-  inner.ontouchcancel = function () {
+  });
+  inner.addEventListener('touchcancel', function () {
     return inner.classList.remove("hover");
-  };
+  });
 
   if (tile.previousPosition) {
     // Make sure that the tile gets rendered in the previous position first
