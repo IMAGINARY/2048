@@ -6,7 +6,7 @@ $tiles: 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048;
     background-size: contain;
     font-size: 0;
     color: white;
-    &:hover {
+    &:hover, &.hover {
       font-size: 55px;
     }
   }
