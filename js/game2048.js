@@ -3965,20 +3965,25 @@ InputManager.prototype.bindKeyboard = function () {
 
 InputManager.prototype.bindGameContainer = function (gameContainer) {
   var self = this;
-  var mc = new Hammer.Manager(gameContainer);
-  mc.add(new Hammer.Swipe());
-  mc.on('swiperight', function () {
-    return self.emit("move", 1);
-  });
-  mc.on('swipeleft', function () {
-    return self.emit("move", 3);
-  });
-  mc.on('swipeup', function () {
-    return self.emit("move", 0);
-  });
-  mc.on('swipedown', function () {
-    return self.emit("move", 2);
-  });
+
+  for (var pointers = 1; pointers <= 10; ++pointers) {
+    var mc = new Hammer.Manager(gameContainer);
+    mc.add(new Hammer.Swipe({
+      pointers: pointers
+    }));
+    mc.on('swiperight', function () {
+      return self.emit("move", 1);
+    });
+    mc.on('swipeleft', function () {
+      return self.emit("move", 3);
+    });
+    mc.on('swipeup', function () {
+      return self.emit("move", 0);
+    });
+    mc.on('swipedown', function () {
+      return self.emit("move", 2);
+    });
+  }
 };
 
 InputManager.prototype.bindRestartButton = function (button) {
