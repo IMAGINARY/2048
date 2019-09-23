@@ -490,7 +490,7 @@
   background-size: contain;
   font-size: 0;
   color: white; }
-  .game2048 .tile.tile-2 .tile-inner:hover {
+  .game2048 .tile.tile-2 .tile-inner:hover, .game2048 .tile.tile-2 .tile-inner.hover {
     font-size: 55px; }
 
 .game2048 .tile.tile-4 .tile-inner {
@@ -498,7 +498,7 @@
   background-size: contain;
   font-size: 0;
   color: white; }
-  .game2048 .tile.tile-4 .tile-inner:hover {
+  .game2048 .tile.tile-4 .tile-inner:hover, .game2048 .tile.tile-4 .tile-inner.hover {
     font-size: 55px; }
 
 .game2048 .tile.tile-8 .tile-inner {
@@ -506,7 +506,7 @@
   background-size: contain;
   font-size: 0;
   color: white; }
-  .game2048 .tile.tile-8 .tile-inner:hover {
+  .game2048 .tile.tile-8 .tile-inner:hover, .game2048 .tile.tile-8 .tile-inner.hover {
     font-size: 55px; }
 
 .game2048 .tile.tile-16 .tile-inner {
@@ -514,7 +514,7 @@
   background-size: contain;
   font-size: 0;
   color: white; }
-  .game2048 .tile.tile-16 .tile-inner:hover {
+  .game2048 .tile.tile-16 .tile-inner:hover, .game2048 .tile.tile-16 .tile-inner.hover {
     font-size: 55px; }
 
 .game2048 .tile.tile-32 .tile-inner {
@@ -522,7 +522,7 @@
   background-size: contain;
   font-size: 0;
   color: white; }
-  .game2048 .tile.tile-32 .tile-inner:hover {
+  .game2048 .tile.tile-32 .tile-inner:hover, .game2048 .tile.tile-32 .tile-inner.hover {
     font-size: 55px; }
 
 .game2048 .tile.tile-64 .tile-inner {
@@ -530,7 +530,7 @@
   background-size: contain;
   font-size: 0;
   color: white; }
-  .game2048 .tile.tile-64 .tile-inner:hover {
+  .game2048 .tile.tile-64 .tile-inner:hover, .game2048 .tile.tile-64 .tile-inner.hover {
     font-size: 55px; }
 
 .game2048 .tile.tile-128 .tile-inner {
@@ -538,7 +538,7 @@
   background-size: contain;
   font-size: 0;
   color: white; }
-  .game2048 .tile.tile-128 .tile-inner:hover {
+  .game2048 .tile.tile-128 .tile-inner:hover, .game2048 .tile.tile-128 .tile-inner.hover {
     font-size: 55px; }
 
 .game2048 .tile.tile-256 .tile-inner {
@@ -546,7 +546,7 @@
   background-size: contain;
   font-size: 0;
   color: white; }
-  .game2048 .tile.tile-256 .tile-inner:hover {
+  .game2048 .tile.tile-256 .tile-inner:hover, .game2048 .tile.tile-256 .tile-inner.hover {
     font-size: 55px; }
 
 .game2048 .tile.tile-512 .tile-inner {
@@ -554,7 +554,7 @@
   background-size: contain;
   font-size: 0;
   color: white; }
-  .game2048 .tile.tile-512 .tile-inner:hover {
+  .game2048 .tile.tile-512 .tile-inner:hover, .game2048 .tile.tile-512 .tile-inner.hover {
     font-size: 55px; }
 
 .game2048 .tile.tile-1024 .tile-inner {
@@ -562,7 +562,7 @@
   background-size: contain;
   font-size: 0;
   color: white; }
-  .game2048 .tile.tile-1024 .tile-inner:hover {
+  .game2048 .tile.tile-1024 .tile-inner:hover, .game2048 .tile.tile-1024 .tile-inner.hover {
     font-size: 55px; }
 
 .game2048 .tile.tile-2048 .tile-inner {
@@ -570,7 +570,7 @@
   background-size: contain;
   font-size: 0;
   color: white; }
-  .game2048 .tile.tile-2048 .tile-inner:hover {
+  .game2048 .tile.tile-2048 .tile-inner:hover, .game2048 .tile.tile-2048 .tile-inner.hover {
     font-size: 55px; }
 
 .game2048.paused .tile-inner {
