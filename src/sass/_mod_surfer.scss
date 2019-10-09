@@ -12,6 +12,24 @@ $tiles: 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048;
   }
 }
 
+/*
+Preload tiles
+ */
+
+$alltiles: '';
+@each $tile in $tiles {
+  $alltiles: #{$alltiles} url('../img/#{$tile}.webp');
+}
+
+&::after{
+  position: absolute;
+  width:0;
+  height:0;
+  overflow:hidden;
+  z-index:-1;
+  content: $alltiles;
+}
+
 &.paused .tile-inner {
   background-image: none !important;
 }

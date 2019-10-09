@@ -133,448 +133,418 @@
     -ms-transform: scale(1);
     transform: scale(1); } }
 
-.game2048 a {
-  color: #fff;
-  font-weight: bold;
-  text-decoration: underline;
-  cursor: pointer; }
-
-.game2048 .container {
-  width: 900px;
-  margin: 0 auto;
-  background: #000;
-  color: #fff;
-  font-family: "Brown", Arial, sans-serif;
-  font-size: 18px; }
-
-.game2048 .restart-button {
-  display: inline-block;
-  background: #5b407b;
-  border-radius: 3px;
-  padding: 14px 34px;
-  text-decoration: none;
-  color: #f9f6f2;
-  font-size: 28px;
-  text-transform: uppercase;
-  line-height: 42px;
-  display: block;
-  text-align: center;
-  float: right; }
-
-.game2048 .score-wrapper {
-  color: #fff;
-  font-size: 46px;
-  line-height: 46px;
-  font-weight: bold; }
-  .game2048 .score-wrapper .label {
-    text-transform: uppercase;
-    font-size: 28px; }
-  .game2048 .score-wrapper .score-container, .game2048 .score-wrapper .best-container {
-    position: relative; }
-  .game2048 .score-wrapper.score-wrapper-score {
-    text-align: left; }
-  .game2048 .score-wrapper.score-wrapper-best {
-    text-align: right; }
-
-.game2048 .score-container, .game2048 .best-container {
-  display: inline-block; }
-  .game2048 .score-container .score-addition, .game2048 .best-container .score-addition {
-    position: absolute;
-    left: 100%;
-    padding-left: 0.2em;
-    font-size: 1em;
-    color: rgba(255, 255, 255, 0.9);
-    z-index: 100;
-    -webkit-animation: move-up 600ms ease-in;
-    -moz-animation: move-up 600ms ease-in;
-    animation: move-up 600ms ease-in;
-    -webkit-animation-fill-mode: both;
-    -moz-animation-fill-mode: both;
-    animation-fill-mode: both; }
-
-.game2048 .game-container {
-  margin-top: 40px;
-  position: relative;
-  padding: 20px;
-  cursor: default;
-  -webkit-touch-callout: none;
-  -ms-touch-callout: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  -ms-touch-action: none;
-  touch-action: none;
-  background: #8d6eb3;
-  border-radius: 6px;
-  width: 900px;
-  height: 900px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box; }
-  .game2048 .game-container .game-message {
-    display: none;
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background: rgba(37, 37, 37, 0.85);
-    z-index: 100;
-    text-align: center;
-    -webkit-animation: fade-in 800ms ease 1200ms;
-    -moz-animation: fade-in 800ms ease 1200ms;
-    animation: fade-in 800ms ease 1200ms;
-    -webkit-animation-fill-mode: both;
-    -moz-animation-fill-mode: both;
-    animation-fill-mode: both; }
-    .game2048 .game-container .game-message p {
-      font-size: 60px;
-      font-weight: bold;
-      height: 60px;
-      line-height: 60px;
-      margin-top: 222px;
-      margin-bottom: 10px;
-      text-transform: uppercase; }
-    .game2048 .game-container .game-message .lower {
-      display: block;
-      margin-top: 59px; }
-    .game2048 .game-container .game-message a {
-      display: inline-block;
-      background: #5b407b;
-      border-radius: 3px;
-      padding: 14px 34px;
-      text-decoration: none;
-      color: #f9f6f2;
-      font-size: 28px;
-      text-transform: uppercase;
-      line-height: 42px;
-      margin-left: 9px; }
-      .game2048 .game-container .game-message a.keep-playing-button {
-        display: none; }
-    .game2048 .game-container .game-message.game-won {
-      background: rgba(237, 194, 46, 0.5);
-      color: #f9f6f2; }
-      .game2048 .game-container .game-message.game-won a.keep-playing-button {
-        display: inline-block; }
-    .game2048 .game-container .game-message.game-won, .game2048 .game-container .game-message.game-over {
-      display: block; }
-
-.game2048 .grid-container {
-  position: absolute;
-  z-index: 1; }
-
-.game2048 .grid-row {
-  margin-bottom: 20px; }
-  .game2048 .grid-row:last-child {
-    margin-bottom: 0; }
-  .game2048 .grid-row:after {
-    content: "";
-    display: block;
-    clear: both; }
-
-.game2048 .grid-cell {
-  width: 200px;
-  height: 200px;
-  margin-right: 20px;
-  float: left;
-  border-radius: 3px;
-  background: rgba(238, 228, 218, 0.35); }
-  .game2048 .grid-cell:last-child {
-    margin-right: 0; }
-
-.game2048 .tile-container {
-  position: absolute;
-  z-index: 2; }
-
-.game2048 .tile, .game2048 .tile .tile-inner {
-  width: 200px;
-  height: 200px;
-  line-height: 200px; }
-
-.game2048 .tile.tile-position-1-1 {
-  -webkit-transform: translate(0px, 0px);
-  -moz-transform: translate(0px, 0px);
-  -ms-transform: translate(0px, 0px);
-  transform: translate(0px, 0px); }
-
-.game2048 .tile.tile-position-1-2 {
-  -webkit-transform: translate(0px, 220px);
-  -moz-transform: translate(0px, 220px);
-  -ms-transform: translate(0px, 220px);
-  transform: translate(0px, 220px); }
-
-.game2048 .tile.tile-position-1-3 {
-  -webkit-transform: translate(0px, 440px);
-  -moz-transform: translate(0px, 440px);
-  -ms-transform: translate(0px, 440px);
-  transform: translate(0px, 440px); }
-
-.game2048 .tile.tile-position-1-4 {
-  -webkit-transform: translate(0px, 660px);
-  -moz-transform: translate(0px, 660px);
-  -ms-transform: translate(0px, 660px);
-  transform: translate(0px, 660px); }
-
-.game2048 .tile.tile-position-2-1 {
-  -webkit-transform: translate(220px, 0px);
-  -moz-transform: translate(220px, 0px);
-  -ms-transform: translate(220px, 0px);
-  transform: translate(220px, 0px); }
-
-.game2048 .tile.tile-position-2-2 {
-  -webkit-transform: translate(220px, 220px);
-  -moz-transform: translate(220px, 220px);
-  -ms-transform: translate(220px, 220px);
-  transform: translate(220px, 220px); }
-
-.game2048 .tile.tile-position-2-3 {
-  -webkit-transform: translate(220px, 440px);
-  -moz-transform: translate(220px, 440px);
-  -ms-transform: translate(220px, 440px);
-  transform: translate(220px, 440px); }
-
-.game2048 .tile.tile-position-2-4 {
-  -webkit-transform: translate(220px, 660px);
-  -moz-transform: translate(220px, 660px);
-  -ms-transform: translate(220px, 660px);
-  transform: translate(220px, 660px); }
-
-.game2048 .tile.tile-position-3-1 {
-  -webkit-transform: translate(440px, 0px);
-  -moz-transform: translate(440px, 0px);
-  -ms-transform: translate(440px, 0px);
-  transform: translate(440px, 0px); }
-
-.game2048 .tile.tile-position-3-2 {
-  -webkit-transform: translate(440px, 220px);
-  -moz-transform: translate(440px, 220px);
-  -ms-transform: translate(440px, 220px);
-  transform: translate(440px, 220px); }
-
-.game2048 .tile.tile-position-3-3 {
-  -webkit-transform: translate(440px, 440px);
-  -moz-transform: translate(440px, 440px);
-  -ms-transform: translate(440px, 440px);
-  transform: translate(440px, 440px); }
-
-.game2048 .tile.tile-position-3-4 {
-  -webkit-transform: translate(440px, 660px);
-  -moz-transform: translate(440px, 660px);
-  -ms-transform: translate(440px, 660px);
-  transform: translate(440px, 660px); }
-
-.game2048 .tile.tile-position-4-1 {
-  -webkit-transform: translate(660px, 0px);
-  -moz-transform: translate(660px, 0px);
-  -ms-transform: translate(660px, 0px);
-  transform: translate(660px, 0px); }
-
-.game2048 .tile.tile-position-4-2 {
-  -webkit-transform: translate(660px, 220px);
-  -moz-transform: translate(660px, 220px);
-  -ms-transform: translate(660px, 220px);
-  transform: translate(660px, 220px); }
-
-.game2048 .tile.tile-position-4-3 {
-  -webkit-transform: translate(660px, 440px);
-  -moz-transform: translate(660px, 440px);
-  -ms-transform: translate(660px, 440px);
-  transform: translate(660px, 440px); }
-
-.game2048 .tile.tile-position-4-4 {
-  -webkit-transform: translate(660px, 660px);
-  -moz-transform: translate(660px, 660px);
-  -ms-transform: translate(660px, 660px);
-  transform: translate(660px, 660px); }
-
-.game2048 .tile {
-  position: absolute;
-  -webkit-transition: 100ms ease-in-out;
-  -moz-transition: 100ms ease-in-out;
-  transition: 100ms ease-in-out;
-  -webkit-transition-property: -webkit-transform;
-  -moz-transition-property: -moz-transform;
-  transition-property: transform; }
-  .game2048 .tile .tile-inner {
-    border-radius: 3px;
-    background: #eee4da;
-    text-align: center;
+.game2048 {
+  /*
+Preload tiles
+ */ }
+  .game2048 a {
+    color: #fff;
     font-weight: bold;
-    z-index: 10;
-    font-size: 100px; }
+    text-decoration: underline;
+    cursor: pointer; }
+  .game2048 .container {
+    width: 900px;
+    margin: 0 auto;
+    background: #000;
+    color: #fff;
+    font-family: "Brown", Arial, sans-serif;
+    font-size: 18px; }
+  .game2048 .restart-button {
+    display: inline-block;
+    background: #5b407b;
+    border-radius: 3px;
+    padding: 14px 34px;
+    text-decoration: none;
+    color: #f9f6f2;
+    font-size: 28px;
+    text-transform: uppercase;
+    line-height: 42px;
+    display: block;
+    text-align: center;
+    float: right; }
+  .game2048 .score-wrapper {
+    color: #fff;
+    font-size: 46px;
+    line-height: 46px;
+    font-weight: bold; }
+    .game2048 .score-wrapper .label {
+      text-transform: uppercase;
+      font-size: 28px; }
+    .game2048 .score-wrapper .score-container, .game2048 .score-wrapper .best-container {
+      position: relative; }
+    .game2048 .score-wrapper.score-wrapper-score {
+      text-align: left; }
+    .game2048 .score-wrapper.score-wrapper-best {
+      text-align: right; }
+  .game2048 .score-container, .game2048 .best-container {
+    display: inline-block; }
+    .game2048 .score-container .score-addition, .game2048 .best-container .score-addition {
+      position: absolute;
+      left: 100%;
+      padding-left: 0.2em;
+      font-size: 1em;
+      color: rgba(255, 255, 255, 0.9);
+      z-index: 100;
+      -webkit-animation: move-up 600ms ease-in;
+      -moz-animation: move-up 600ms ease-in;
+      animation: move-up 600ms ease-in;
+      -webkit-animation-fill-mode: both;
+      -moz-animation-fill-mode: both;
+      animation-fill-mode: both; }
+  .game2048 .game-container {
+    margin-top: 40px;
+    position: relative;
+    padding: 20px;
+    cursor: default;
+    -webkit-touch-callout: none;
+    -ms-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -ms-touch-action: none;
+    touch-action: none;
+    background: #8d6eb3;
+    border-radius: 6px;
+    width: 900px;
+    height: 900px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box; }
+    .game2048 .game-container .game-message {
+      display: none;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background: rgba(37, 37, 37, 0.85);
+      z-index: 100;
+      text-align: center;
+      -webkit-animation: fade-in 800ms ease 1200ms;
+      -moz-animation: fade-in 800ms ease 1200ms;
+      animation: fade-in 800ms ease 1200ms;
+      -webkit-animation-fill-mode: both;
+      -moz-animation-fill-mode: both;
+      animation-fill-mode: both; }
+      .game2048 .game-container .game-message p {
+        font-size: 60px;
+        font-weight: bold;
+        height: 60px;
+        line-height: 60px;
+        margin-top: 222px;
+        margin-bottom: 10px;
+        text-transform: uppercase; }
+      .game2048 .game-container .game-message .lower {
+        display: block;
+        margin-top: 59px; }
+      .game2048 .game-container .game-message a {
+        display: inline-block;
+        background: #5b407b;
+        border-radius: 3px;
+        padding: 14px 34px;
+        text-decoration: none;
+        color: #f9f6f2;
+        font-size: 28px;
+        text-transform: uppercase;
+        line-height: 42px;
+        margin-left: 9px; }
+        .game2048 .game-container .game-message a.keep-playing-button {
+          display: none; }
+      .game2048 .game-container .game-message.game-won {
+        background: rgba(237, 194, 46, 0.5);
+        color: #f9f6f2; }
+        .game2048 .game-container .game-message.game-won a.keep-playing-button {
+          display: inline-block; }
+      .game2048 .game-container .game-message.game-won, .game2048 .game-container .game-message.game-over {
+        display: block; }
+  .game2048 .grid-container {
+    position: absolute;
+    z-index: 1; }
+  .game2048 .grid-row {
+    margin-bottom: 20px; }
+    .game2048 .grid-row:last-child {
+      margin-bottom: 0; }
+    .game2048 .grid-row:after {
+      content: "";
+      display: block;
+      clear: both; }
+  .game2048 .grid-cell {
+    width: 200px;
+    height: 200px;
+    margin-right: 20px;
+    float: left;
+    border-radius: 3px;
+    background: rgba(238, 228, 218, 0.35); }
+    .game2048 .grid-cell:last-child {
+      margin-right: 0; }
+  .game2048 .tile-container {
+    position: absolute;
+    z-index: 2; }
+  .game2048 .tile, .game2048 .tile .tile-inner {
+    width: 200px;
+    height: 200px;
+    line-height: 200px; }
+  .game2048 .tile.tile-position-1-1 {
+    -webkit-transform: translate(0px, 0px);
+    -moz-transform: translate(0px, 0px);
+    -ms-transform: translate(0px, 0px);
+    transform: translate(0px, 0px); }
+  .game2048 .tile.tile-position-1-2 {
+    -webkit-transform: translate(0px, 220px);
+    -moz-transform: translate(0px, 220px);
+    -ms-transform: translate(0px, 220px);
+    transform: translate(0px, 220px); }
+  .game2048 .tile.tile-position-1-3 {
+    -webkit-transform: translate(0px, 440px);
+    -moz-transform: translate(0px, 440px);
+    -ms-transform: translate(0px, 440px);
+    transform: translate(0px, 440px); }
+  .game2048 .tile.tile-position-1-4 {
+    -webkit-transform: translate(0px, 660px);
+    -moz-transform: translate(0px, 660px);
+    -ms-transform: translate(0px, 660px);
+    transform: translate(0px, 660px); }
+  .game2048 .tile.tile-position-2-1 {
+    -webkit-transform: translate(220px, 0px);
+    -moz-transform: translate(220px, 0px);
+    -ms-transform: translate(220px, 0px);
+    transform: translate(220px, 0px); }
+  .game2048 .tile.tile-position-2-2 {
+    -webkit-transform: translate(220px, 220px);
+    -moz-transform: translate(220px, 220px);
+    -ms-transform: translate(220px, 220px);
+    transform: translate(220px, 220px); }
+  .game2048 .tile.tile-position-2-3 {
+    -webkit-transform: translate(220px, 440px);
+    -moz-transform: translate(220px, 440px);
+    -ms-transform: translate(220px, 440px);
+    transform: translate(220px, 440px); }
+  .game2048 .tile.tile-position-2-4 {
+    -webkit-transform: translate(220px, 660px);
+    -moz-transform: translate(220px, 660px);
+    -ms-transform: translate(220px, 660px);
+    transform: translate(220px, 660px); }
+  .game2048 .tile.tile-position-3-1 {
+    -webkit-transform: translate(440px, 0px);
+    -moz-transform: translate(440px, 0px);
+    -ms-transform: translate(440px, 0px);
+    transform: translate(440px, 0px); }
+  .game2048 .tile.tile-position-3-2 {
+    -webkit-transform: translate(440px, 220px);
+    -moz-transform: translate(440px, 220px);
+    -ms-transform: translate(440px, 220px);
+    transform: translate(440px, 220px); }
+  .game2048 .tile.tile-position-3-3 {
+    -webkit-transform: translate(440px, 440px);
+    -moz-transform: translate(440px, 440px);
+    -ms-transform: translate(440px, 440px);
+    transform: translate(440px, 440px); }
+  .game2048 .tile.tile-position-3-4 {
+    -webkit-transform: translate(440px, 660px);
+    -moz-transform: translate(440px, 660px);
+    -ms-transform: translate(440px, 660px);
+    transform: translate(440px, 660px); }
+  .game2048 .tile.tile-position-4-1 {
+    -webkit-transform: translate(660px, 0px);
+    -moz-transform: translate(660px, 0px);
+    -ms-transform: translate(660px, 0px);
+    transform: translate(660px, 0px); }
+  .game2048 .tile.tile-position-4-2 {
+    -webkit-transform: translate(660px, 220px);
+    -moz-transform: translate(660px, 220px);
+    -ms-transform: translate(660px, 220px);
+    transform: translate(660px, 220px); }
+  .game2048 .tile.tile-position-4-3 {
+    -webkit-transform: translate(660px, 440px);
+    -moz-transform: translate(660px, 440px);
+    -ms-transform: translate(660px, 440px);
+    transform: translate(660px, 440px); }
+  .game2048 .tile.tile-position-4-4 {
+    -webkit-transform: translate(660px, 660px);
+    -moz-transform: translate(660px, 660px);
+    -ms-transform: translate(660px, 660px);
+    transform: translate(660px, 660px); }
+  .game2048 .tile {
+    position: absolute;
+    -webkit-transition: 100ms ease-in-out;
+    -moz-transition: 100ms ease-in-out;
+    transition: 100ms ease-in-out;
+    -webkit-transition-property: -webkit-transform;
+    -moz-transition-property: -moz-transform;
+    transition-property: transform; }
+    .game2048 .tile .tile-inner {
+      border-radius: 3px;
+      background: #eee4da;
+      text-align: center;
+      font-weight: bold;
+      z-index: 10;
+      font-size: 100px; }
+    .game2048 .tile.tile-2 .tile-inner {
+      background: #eee4da;
+      box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0), inset 0 0 0 1px rgba(255, 255, 255, 0); }
+    .game2048 .tile.tile-4 .tile-inner {
+      background: #eee1c9;
+      box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0), inset 0 0 0 1px rgba(255, 255, 255, 0); }
+    .game2048 .tile.tile-8 .tile-inner {
+      color: #f9f6f2;
+      background: #f3b27a; }
+    .game2048 .tile.tile-16 .tile-inner {
+      color: #f9f6f2;
+      background: #f69664; }
+    .game2048 .tile.tile-32 .tile-inner {
+      color: #f9f6f2;
+      background: #f77c5f; }
+    .game2048 .tile.tile-64 .tile-inner {
+      color: #f9f6f2;
+      background: #f75f3b; }
+    .game2048 .tile.tile-128 .tile-inner {
+      color: #f9f6f2;
+      background: #edd073;
+      box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.238095), inset 0 0 0 1px rgba(255, 255, 255, 0.142857);
+      font-size: 45px; }
+      @media screen and (max-width: 920px) {
+        .game2048 .tile.tile-128 .tile-inner {
+          font-size: 25px; } }
+    .game2048 .tile.tile-256 .tile-inner {
+      color: #f9f6f2;
+      background: #edcc62;
+      box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.31746), inset 0 0 0 1px rgba(255, 255, 255, 0.190476);
+      font-size: 45px; }
+      @media screen and (max-width: 920px) {
+        .game2048 .tile.tile-256 .tile-inner {
+          font-size: 25px; } }
+    .game2048 .tile.tile-512 .tile-inner {
+      color: #f9f6f2;
+      background: #edc950;
+      box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.396825), inset 0 0 0 1px rgba(255, 255, 255, 0.238095);
+      font-size: 45px; }
+      @media screen and (max-width: 920px) {
+        .game2048 .tile.tile-512 .tile-inner {
+          font-size: 25px; } }
+    .game2048 .tile.tile-1024 .tile-inner {
+      color: #f9f6f2;
+      background: #edc53f;
+      box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.47619), inset 0 0 0 1px rgba(255, 255, 255, 0.285714);
+      font-size: 35px; }
+      @media screen and (max-width: 920px) {
+        .game2048 .tile.tile-1024 .tile-inner {
+          font-size: 15px; } }
+    .game2048 .tile.tile-2048 .tile-inner {
+      color: #f9f6f2;
+      background: #edc22e;
+      box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.555556), inset 0 0 0 1px rgba(255, 255, 255, 0.333333);
+      font-size: 35px; }
+      @media screen and (max-width: 920px) {
+        .game2048 .tile.tile-2048 .tile-inner {
+          font-size: 15px; } }
+    .game2048 .tile.tile-super .tile-inner {
+      color: #f9f6f2;
+      background: #3c3a33;
+      font-size: 30px; }
+      @media screen and (max-width: 920px) {
+        .game2048 .tile.tile-super .tile-inner {
+          font-size: 10px; } }
+  .game2048 .tile-new .tile-inner {
+    -webkit-animation: appear 200ms ease 100ms;
+    -moz-animation: appear 200ms ease 100ms;
+    animation: appear 200ms ease 100ms;
+    -webkit-animation-fill-mode: backwards;
+    -moz-animation-fill-mode: backwards;
+    animation-fill-mode: backwards; }
+  .game2048 .tile-merged .tile-inner {
+    z-index: 20;
+    -webkit-animation: pop 200ms ease 100ms;
+    -moz-animation: pop 200ms ease 100ms;
+    animation: pop 200ms ease 100ms;
+    -webkit-animation-fill-mode: backwards;
+    -moz-animation-fill-mode: backwards;
+    animation-fill-mode: backwards; }
   .game2048 .tile.tile-2 .tile-inner {
-    background: #eee4da;
-    box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0), inset 0 0 0 1px rgba(255, 255, 255, 0); }
+    background-image: url("../img/2.webp");
+    background-size: contain;
+    font-size: 0;
+    color: white; }
+    .game2048 .tile.tile-2 .tile-inner:hover, .game2048 .tile.tile-2 .tile-inner.hover {
+      font-size: 55px; }
   .game2048 .tile.tile-4 .tile-inner {
-    background: #eee1c9;
-    box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0), inset 0 0 0 1px rgba(255, 255, 255, 0); }
+    background-image: url("../img/4.webp");
+    background-size: contain;
+    font-size: 0;
+    color: white; }
+    .game2048 .tile.tile-4 .tile-inner:hover, .game2048 .tile.tile-4 .tile-inner.hover {
+      font-size: 55px; }
   .game2048 .tile.tile-8 .tile-inner {
-    color: #f9f6f2;
-    background: #f3b27a; }
+    background-image: url("../img/8.webp");
+    background-size: contain;
+    font-size: 0;
+    color: white; }
+    .game2048 .tile.tile-8 .tile-inner:hover, .game2048 .tile.tile-8 .tile-inner.hover {
+      font-size: 55px; }
   .game2048 .tile.tile-16 .tile-inner {
-    color: #f9f6f2;
-    background: #f69664; }
+    background-image: url("../img/16.webp");
+    background-size: contain;
+    font-size: 0;
+    color: white; }
+    .game2048 .tile.tile-16 .tile-inner:hover, .game2048 .tile.tile-16 .tile-inner.hover {
+      font-size: 55px; }
   .game2048 .tile.tile-32 .tile-inner {
-    color: #f9f6f2;
-    background: #f77c5f; }
+    background-image: url("../img/32.webp");
+    background-size: contain;
+    font-size: 0;
+    color: white; }
+    .game2048 .tile.tile-32 .tile-inner:hover, .game2048 .tile.tile-32 .tile-inner.hover {
+      font-size: 55px; }
   .game2048 .tile.tile-64 .tile-inner {
-    color: #f9f6f2;
-    background: #f75f3b; }
+    background-image: url("../img/64.webp");
+    background-size: contain;
+    font-size: 0;
+    color: white; }
+    .game2048 .tile.tile-64 .tile-inner:hover, .game2048 .tile.tile-64 .tile-inner.hover {
+      font-size: 55px; }
   .game2048 .tile.tile-128 .tile-inner {
-    color: #f9f6f2;
-    background: #edd073;
-    box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.238095), inset 0 0 0 1px rgba(255, 255, 255, 0.142857);
-    font-size: 45px; }
-    @media screen and (max-width: 920px) {
-      .game2048 .tile.tile-128 .tile-inner {
-        font-size: 25px; } }
+    background-image: url("../img/128.webp");
+    background-size: contain;
+    font-size: 0;
+    color: white; }
+    .game2048 .tile.tile-128 .tile-inner:hover, .game2048 .tile.tile-128 .tile-inner.hover {
+      font-size: 55px; }
   .game2048 .tile.tile-256 .tile-inner {
-    color: #f9f6f2;
-    background: #edcc62;
-    box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.31746), inset 0 0 0 1px rgba(255, 255, 255, 0.190476);
-    font-size: 45px; }
-    @media screen and (max-width: 920px) {
-      .game2048 .tile.tile-256 .tile-inner {
-        font-size: 25px; } }
+    background-image: url("../img/256.webp");
+    background-size: contain;
+    font-size: 0;
+    color: white; }
+    .game2048 .tile.tile-256 .tile-inner:hover, .game2048 .tile.tile-256 .tile-inner.hover {
+      font-size: 55px; }
   .game2048 .tile.tile-512 .tile-inner {
-    color: #f9f6f2;
-    background: #edc950;
-    box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.396825), inset 0 0 0 1px rgba(255, 255, 255, 0.238095);
-    font-size: 45px; }
-    @media screen and (max-width: 920px) {
-      .game2048 .tile.tile-512 .tile-inner {
-        font-size: 25px; } }
+    background-image: url("../img/512.webp");
+    background-size: contain;
+    font-size: 0;
+    color: white; }
+    .game2048 .tile.tile-512 .tile-inner:hover, .game2048 .tile.tile-512 .tile-inner.hover {
+      font-size: 55px; }
   .game2048 .tile.tile-1024 .tile-inner {
-    color: #f9f6f2;
-    background: #edc53f;
-    box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.47619), inset 0 0 0 1px rgba(255, 255, 255, 0.285714);
-    font-size: 35px; }
-    @media screen and (max-width: 920px) {
-      .game2048 .tile.tile-1024 .tile-inner {
-        font-size: 15px; } }
+    background-image: url("../img/1024.webp");
+    background-size: contain;
+    font-size: 0;
+    color: white; }
+    .game2048 .tile.tile-1024 .tile-inner:hover, .game2048 .tile.tile-1024 .tile-inner.hover {
+      font-size: 55px; }
   .game2048 .tile.tile-2048 .tile-inner {
-    color: #f9f6f2;
-    background: #edc22e;
-    box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.555556), inset 0 0 0 1px rgba(255, 255, 255, 0.333333);
-    font-size: 35px; }
-    @media screen and (max-width: 920px) {
-      .game2048 .tile.tile-2048 .tile-inner {
-        font-size: 15px; } }
-  .game2048 .tile.tile-super .tile-inner {
-    color: #f9f6f2;
-    background: #3c3a33;
-    font-size: 30px; }
-    @media screen and (max-width: 920px) {
-      .game2048 .tile.tile-super .tile-inner {
-        font-size: 10px; } }
-
-.game2048 .tile-new .tile-inner {
-  -webkit-animation: appear 200ms ease 100ms;
-  -moz-animation: appear 200ms ease 100ms;
-  animation: appear 200ms ease 100ms;
-  -webkit-animation-fill-mode: backwards;
-  -moz-animation-fill-mode: backwards;
-  animation-fill-mode: backwards; }
-
-.game2048 .tile-merged .tile-inner {
-  z-index: 20;
-  -webkit-animation: pop 200ms ease 100ms;
-  -moz-animation: pop 200ms ease 100ms;
-  animation: pop 200ms ease 100ms;
-  -webkit-animation-fill-mode: backwards;
-  -moz-animation-fill-mode: backwards;
-  animation-fill-mode: backwards; }
-
-.game2048 .tile.tile-2 .tile-inner {
-  background-image: url("../img/2.webp");
-  background-size: contain;
-  font-size: 0;
-  color: white; }
-  .game2048 .tile.tile-2 .tile-inner:hover, .game2048 .tile.tile-2 .tile-inner.hover {
-    font-size: 55px; }
-
-.game2048 .tile.tile-4 .tile-inner {
-  background-image: url("../img/4.webp");
-  background-size: contain;
-  font-size: 0;
-  color: white; }
-  .game2048 .tile.tile-4 .tile-inner:hover, .game2048 .tile.tile-4 .tile-inner.hover {
-    font-size: 55px; }
-
-.game2048 .tile.tile-8 .tile-inner {
-  background-image: url("../img/8.webp");
-  background-size: contain;
-  font-size: 0;
-  color: white; }
-  .game2048 .tile.tile-8 .tile-inner:hover, .game2048 .tile.tile-8 .tile-inner.hover {
-    font-size: 55px; }
-
-.game2048 .tile.tile-16 .tile-inner {
-  background-image: url("../img/16.webp");
-  background-size: contain;
-  font-size: 0;
-  color: white; }
-  .game2048 .tile.tile-16 .tile-inner:hover, .game2048 .tile.tile-16 .tile-inner.hover {
-    font-size: 55px; }
-
-.game2048 .tile.tile-32 .tile-inner {
-  background-image: url("../img/32.webp");
-  background-size: contain;
-  font-size: 0;
-  color: white; }
-  .game2048 .tile.tile-32 .tile-inner:hover, .game2048 .tile.tile-32 .tile-inner.hover {
-    font-size: 55px; }
-
-.game2048 .tile.tile-64 .tile-inner {
-  background-image: url("../img/64.webp");
-  background-size: contain;
-  font-size: 0;
-  color: white; }
-  .game2048 .tile.tile-64 .tile-inner:hover, .game2048 .tile.tile-64 .tile-inner.hover {
-    font-size: 55px; }
-
-.game2048 .tile.tile-128 .tile-inner {
-  background-image: url("../img/128.webp");
-  background-size: contain;
-  font-size: 0;
-  color: white; }
-  .game2048 .tile.tile-128 .tile-inner:hover, .game2048 .tile.tile-128 .tile-inner.hover {
-    font-size: 55px; }
-
-.game2048 .tile.tile-256 .tile-inner {
-  background-image: url("../img/256.webp");
-  background-size: contain;
-  font-size: 0;
-  color: white; }
-  .game2048 .tile.tile-256 .tile-inner:hover, .game2048 .tile.tile-256 .tile-inner.hover {
-    font-size: 55px; }
-
-.game2048 .tile.tile-512 .tile-inner {
-  background-image: url("../img/512.webp");
-  background-size: contain;
-  font-size: 0;
-  color: white; }
-  .game2048 .tile.tile-512 .tile-inner:hover, .game2048 .tile.tile-512 .tile-inner.hover {
-    font-size: 55px; }
-
-.game2048 .tile.tile-1024 .tile-inner {
-  background-image: url("../img/1024.webp");
-  background-size: contain;
-  font-size: 0;
-  color: white; }
-  .game2048 .tile.tile-1024 .tile-inner:hover, .game2048 .tile.tile-1024 .tile-inner.hover {
-    font-size: 55px; }
-
-.game2048 .tile.tile-2048 .tile-inner {
-  background-image: url("../img/2048.webp");
-  background-size: contain;
-  font-size: 0;
-  color: white; }
-  .game2048 .tile.tile-2048 .tile-inner:hover, .game2048 .tile.tile-2048 .tile-inner.hover {
-    font-size: 55px; }
-
-.game2048.paused .tile-inner {
-  background-image: none !important; }
+    background-image: url("../img/2048.webp");
+    background-size: contain;
+    font-size: 0;
+    color: white; }
+    .game2048 .tile.tile-2048 .tile-inner:hover, .game2048 .tile.tile-2048 .tile-inner.hover {
+      font-size: 55px; }
+  .game2048::after {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    z-index: -1;
+    content:  url("../img/2.webp") url("../img/4.webp") url("../img/8.webp") url("../img/16.webp") url("../img/32.webp") url("../img/64.webp") url("../img/128.webp") url("../img/256.webp") url("../img/512.webp") url("../img/1024.webp") url("../img/2048.webp"); }
+  .game2048.paused .tile-inner {
+    background-image: none !important; }
 
 @-webkit-keyframes help-swipe-right {
   0% {
@@ -608,72 +578,65 @@
   100% {
     left: 20%;
     opacity: 0; } }
-
-.game2048 .helping-hand {
-  display: none;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 10%;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 10;
-  background-image: url("../img/hand.svg");
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: 50% 50%;
-  pointer-events: none;
-  -webkit-animation: help-swipe-right 1800ms ease-out;
-  -moz-animation: help-swipe-right 1800ms ease-out;
-  animation: help-swipe-right 1800ms ease-out;
-  -webkit-animation-fill-mode: both;
-  -moz-animation-fill-mode: both;
-  animation-fill-mode: both; }
-  .game2048 .helping-hand.shown {
-    display: block; }
-
-.game2048 .helping-text {
-  display: block;
-  position: absolute;
-  bottom: 35px;
-  font-size: 36px;
-  text-align: center;
-  width: 60%;
-  line-height: 40px;
-  margin: 0 20%;
-  margin-bottom: -100%;
-  opacity: 0;
-  transition: opacity 1s, margin-bottom 0s 1s; }
-  .game2048 .helping-text.shown {
-    opacity: 1;
-    margin-bottom: 0;
-    transition: opacity 0.3s, margin-bottom 1s 0s; }
-
-.game2048 .container {
-  position: relative;
-  width: 1560px;
-  height: 1170px;
-  overflow: hidden;
-  padding: 130px 0 76px 0;
-  box-sizing: border-box; }
-
-.game2048 .game-container {
-  margin: 0 auto; }
-
-.game2048 .restart-button {
-  position: absolute;
-  bottom: 40px;
-  right: 40px; }
-
-.game2048 .score-wrapper-score {
-  position: absolute;
-  top: 20px;
-  left: 40px; }
-
-.game2048 .score-wrapper-best {
-  position: absolute;
-  top: 20px;
-  right: 40px; }
+  .game2048 .helping-hand {
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 10%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    background-image: url("../img/hand.svg");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 50% 50%;
+    pointer-events: none;
+    -webkit-animation: help-swipe-right 1800ms ease-out;
+    -moz-animation: help-swipe-right 1800ms ease-out;
+    animation: help-swipe-right 1800ms ease-out;
+    -webkit-animation-fill-mode: both;
+    -moz-animation-fill-mode: both;
+    animation-fill-mode: both; }
+    .game2048 .helping-hand.shown {
+      display: block; }
+  .game2048 .helping-text {
+    display: block;
+    position: absolute;
+    bottom: 35px;
+    font-size: 36px;
+    text-align: center;
+    width: 60%;
+    line-height: 40px;
+    margin: 0 20%;
+    margin-bottom: -100%;
+    opacity: 0;
+    transition: opacity 1s, margin-bottom 0s 1s; }
+    .game2048 .helping-text.shown {
+      opacity: 1;
+      margin-bottom: 0;
+      transition: opacity 0.3s, margin-bottom 1s 0s; }
+  .game2048 .container {
+    position: relative;
+    width: 1560px;
+    height: 1170px;
+    overflow: hidden;
+    padding: 130px 0 76px 0;
+    box-sizing: border-box; }
+  .game2048 .game-container {
+    margin: 0 auto; }
+  .game2048 .restart-button {
+    position: absolute;
+    bottom: 40px;
+    right: 40px; }
+  .game2048 .score-wrapper-score {
+    position: absolute;
+    top: 20px;
+    left: 40px; }
+  .game2048 .score-wrapper-best {
+    position: absolute;
+    top: 20px;
+    right: 40px; }
 
 /*# sourceMappingURL=main.css.map */
